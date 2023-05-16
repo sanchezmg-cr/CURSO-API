@@ -8,11 +8,11 @@ namespace _03_Routing_Web_Api.Controllers
     // preferible utilizar el /[action] y no usarlo en el Http
     [Route("api/v1/[controller]/[action]")]
     [ApiController]
-    public class EmplyeesController : ControllerBase
+    public class EmployeesController : ControllerBase
     {
         List<EmployeeDTO> ListEmployees;
 
-        public EmplyeesController()
+        public EmployeesController()
         {
             ListEmployees = new List<EmployeeDTO>()
             {
