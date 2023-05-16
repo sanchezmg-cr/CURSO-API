@@ -11,6 +11,7 @@
         public string Type { get; set; }
         public string otro { get; set; }
         public string otros { get; set; }
+        public string mas { get; set; }
 
     }
 
