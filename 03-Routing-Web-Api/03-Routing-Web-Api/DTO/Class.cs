@@ -5,6 +5,7 @@
     
     public class Class
     {
+        int Id { get; set; }
     }
 
 
