@@ -30,12 +30,32 @@ namespace _03_Routing_Web_Api.Controllers
         }
 
         //[HttpGet]
-        [HttpGet("GetEmployeeById/{id}/{name}")]
+        // incluir los parametros para reducir el url
+        //[HttpGet("GetEmployeeById/{id}/{name}")]
+
+        // para fechas
+        [HttpGet("GetEmployeeById/{id}&{name}")]
         public ActionResult GetEmployeeById([Required] decimal id, [Required] string name)
         {
             var employee = ListEmployees.Find(x => x.Id == id);
 
             return Ok(employee);
+        }
+
+        [HttpPost("CreateEmployee")]
+        public ActionResult CreateEmployee( EmployeeDTO employee) 
+        {
+            //var employee = new EmployeeDTO() {};
+            //employee.Id = 4;
+            //employee.Name = "Chalo";
+            //employee.Position = "Angelito";
+
+            ListEmployees.Add(employee);
+
+            
+            
+            
+            return Ok(ListEmployees);
         }
     }
 }
