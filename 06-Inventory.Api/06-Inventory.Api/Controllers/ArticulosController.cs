@@ -28,15 +28,19 @@ namespace _06_Inventory.Api.Controllers
                 return NotFound();
 
             var articulos = (from item in items
-                              select new ArticulosDTO
-                              {
-                                  Code = item.CODIGO,
-                                  Description = item.DESCRIPCION,
-                                  Category = item.CATEGORIA,
-                                  Brand = item.MARCA,
-                                  Weight = item.PESO,
-                                  BarCode = item.CODIGO_BARRAS
-                              }).ToList();
+                             select new ArticulosDTO
+                             {
+                                 Code = item.CODIGO,
+                                 Description = item.DESCRIPCION,
+                                 Category = item.CATEGORIA,
+                                 Brand = item.MARCA,
+                                 Weight = item.PESO,
+                                 BarCode = item.CODIGO_BARRAS,
+                                 CreateDate = item.CREACION_TSTAMP,
+                                 CreateUser = item.CREACION_USUARIO,
+                                 updateDate = item.ULT_MODIF_TSTAMP,
+                                 updateUser = item.ULT_MODIF_USUARIO
+                             }).ToList();
 
             return Ok(articulos);
         }
@@ -129,11 +133,13 @@ namespace _06_Inventory.Api.Controllers
         {
             await using var transaction = await _context.Database.BeginTransactionAsync();
 
+            MessageResponseDTO mensaje = new MessageResponseDTO();
+            mensaje.Message = "se eliminó";
 
             string sql = "BEGIN CAPBorrarArticulos(:pArticulo, :pResult); END;";
 
             OracleParameter pArticulo = new OracleParameter("pArticulo", ArticuloID);
-            OracleParameter pResult = new OracleParameter("pResult", OracleDbType.Varchar2, System.Data.ParameterDirection.InputOutput) { Size = 4000 };
+            OracleParameter? pResult = new OracleParameter("pResult", OracleDbType.Varchar2, System.Data.ParameterDirection.InputOutput) { Size = 4000 };
 
             await _context.Database.ExecuteSqlCommandAsync(sql, pArticulo, pResult);
 
@@ -146,7 +152,16 @@ namespace _06_Inventory.Api.Controllers
                 await transaction.RollbackAsync();
             };
 
-            return Ok(pResult);
+            //return Ok(pResult);
+            //return pResult.Value == null ? Ok(mensaje) : Ok(pResult.Value);
+
+            if (pResult.Value.ToString().Equals("null"))
+            
+            { return Ok("Se eliminó registro {ArticuloID}"); }
+
+            else { return Ok(pResult.Value); }
+
+
         }
 
         [HttpPost("ImportArticulos")]
@@ -160,17 +175,17 @@ namespace _06_Inventory.Api.Controllers
             else
             {
                 var addArticulos = from A in articulosDTOs
-                                    select new ARTICULOS
-                                    {
-                                        CODIGO = A.Code,
-                                        DESCRIPCION = A.Description,
-                                        CATEGORIA = A.Category,
-                                        MARCA = A.Brand,
-                                        PESO = A.Weight,
-                                        CODIGO_BARRAS = A.BarCode,
-                                        CREACION_TSTAMP = DateTime.Now,
-                                        CREACION_USUARIO = A.CreateUser
-                                    };
+                                   select new ARTICULOS
+                                   {
+                                       CODIGO = A.Code,
+                                       DESCRIPCION = A.Description,
+                                       CATEGORIA = A.Category,
+                                       MARCA = A.Brand,
+                                       PESO = A.Weight,
+                                       CODIGO_BARRAS = A.BarCode,
+                                       CREACION_TSTAMP = DateTime.Now,
+                                       CREACION_USUARIO = A.CreateUser
+                                   };
                 try
                 {
                     await _context.ARTICULOS.AddRangeAsync(addArticulos.ToList());

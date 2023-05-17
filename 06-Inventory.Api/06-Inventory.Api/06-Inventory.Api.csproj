@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Mapper\" />
+    <Folder Include="Models\Enumerations\" />
   </ItemGroup>
 
 </Project>
