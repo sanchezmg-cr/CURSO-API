@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Oracle.ManagedDataAccess.Client;
+using System.Drawing.Drawing2D;
 
 namespace _06_Inventory.Api.Controllers
 {
@@ -38,8 +39,8 @@ namespace _06_Inventory.Api.Controllers
                                  BarCode = item.CODIGO_BARRAS,
                                  CreateDate = item.CREACION_TSTAMP,
                                  CreateUser = item.CREACION_USUARIO,
-                                 updateDate = item.ULT_MODIF_TSTAMP,
-                                 updateUser = item.ULT_MODIF_USUARIO
+                                 UpdateDate = item.ULT_MODIF_TSTAMP,
+                                 UpdateUser = item.ULT_MODIF_USUARIO
                              }).ToList();
 
             return Ok(articulos);
@@ -53,7 +54,7 @@ namespace _06_Inventory.Api.Controllers
             if (item == null)
                 return NotFound();
 
-            ArticulosDTO record = new ArticulosDTO();
+            ArticulosDTO record = new();
 
             record = new ArticulosDTO
             {
@@ -77,8 +78,12 @@ namespace _06_Inventory.Api.Controllers
                 return NotFound();
 
             saveRecord.DESCRIPCION = articulosDTO.Description;
+            saveRecord.CATEGORIA = articulosDTO.Category;
+            saveRecord.MARCA = articulosDTO.Brand;
+            saveRecord.PESO = articulosDTO.Weight;
+            saveRecord.CODIGO_BARRAS = articulosDTO.BarCode;
             saveRecord.ULT_MODIF_TSTAMP = DateTime.Now;
-            saveRecord.ULT_MODIF_USUARIO = articulosDTO.updateUser;
+            saveRecord.ULT_MODIF_USUARIO = articulosDTO.UpdateUser;
 
             try
             {
@@ -94,8 +99,8 @@ namespace _06_Inventory.Api.Controllers
             return Ok(saveRecord);
         }
 
-        [HttpPost("createArticulo")]
-        public async Task<ActionResult<CATEGORIA>> createArticulo(ArticulosDTO articulosDTO)
+        [HttpPost("CreateArticulo")]
+        public async Task<ActionResult<CATEGORIA>> CreateArticulo(ArticulosDTO articulosDTO)
         {
             if (articulosDTO == null)
                 return NoContent();
@@ -111,14 +116,13 @@ namespace _06_Inventory.Api.Controllers
                 PESO = articulosDTO.Weight,
                 CODIGO_BARRAS = articulosDTO.BarCode,
                 ULT_MODIF_TSTAMP = DateTime.Now,
-                ULT_MODIF_USUARIO = articulosDTO.updateUser
+                ULT_MODIF_USUARIO = articulosDTO.UpdateUser
             };
 
             try
             {
                 await _context.ARTICULOS.AddRangeAsync(createArticulo);
                 await _context.SaveChangesAsync();
-
             }
             catch (Exception ex)
             {
@@ -128,18 +132,15 @@ namespace _06_Inventory.Api.Controllers
             return Ok(createArticulo);
         }
 
-        [HttpPost("deleteArticulo/{ArticuloID}")]
-        public async Task<ActionResult> deleteArticulo(int ArticuloID)
+        [HttpPost("DeleteArticulo/{ArticuloID}")]
+        public async Task<ActionResult> DeleteArticulo(int ArticuloID)
         {
             await using var transaction = await _context.Database.BeginTransactionAsync();
 
-            MessageResponseDTO mensaje = new MessageResponseDTO();
-            mensaje.Message = "se eliminó";
-
             string sql = "BEGIN CAPBorrarArticulos(:pArticulo, :pResult); END;";
 
-            OracleParameter pArticulo = new OracleParameter("pArticulo", ArticuloID);
-            OracleParameter? pResult = new OracleParameter("pResult", OracleDbType.Varchar2, System.Data.ParameterDirection.InputOutput) { Size = 4000 };
+            OracleParameter pArticulo = new("pArticulo", ArticuloID);
+            OracleParameter pResult = new("pResult", OracleDbType.Varchar2, System.Data.ParameterDirection.InputOutput) { Size = 4000 };
 
             await _context.Database.ExecuteSqlCommandAsync(sql, pArticulo, pResult);
 
@@ -152,26 +153,21 @@ namespace _06_Inventory.Api.Controllers
                 await transaction.RollbackAsync();
             };
 
-            //return Ok(pResult);
-            //return pResult.Value == null ? Ok(mensaje) : Ok(pResult.Value);
-
             if (pResult.Value.ToString().Equals("null"))
-            
-            { return Ok("Se eliminó registro {ArticuloID}"); }
-
-            else { return Ok(pResult.Value); }
-
-
+            {
+                return Ok("Se eliminó registro");
+            }
+            else
+            {
+                return Ok(pResult.Value);
+            }
         }
 
         [HttpPost("ImportArticulos")]
         public async Task<ActionResult> ImportArticulos([FromBody] IEnumerable<ArticulosDTO> articulosDTOs)
         {
-
-
             if (articulosDTOs is null)
                 return NotFound();
-
             else
             {
                 var addArticulos = from A in articulosDTOs

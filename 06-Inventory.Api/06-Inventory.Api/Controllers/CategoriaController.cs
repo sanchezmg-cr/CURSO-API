@@ -39,15 +39,17 @@ namespace _06_Inventory.Api.Controllers
             return Ok(categorias);
         }
 
-        [HttpGet("GetCategoria/{categoria}")]
-        public async Task<ActionResult> GetCategoria(int categoria)
+        [HttpGet("GetCategoria/{categoriaId}")]
+        public async Task<ActionResult> GetCategoria(int categoriaId)
         {
-            var item = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == categoria);
+            var item = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == categoriaId);
 
             if (item == null)
                 return NotFound();
 
-            CategoriaDTO record = new CategoriaDTO();
+            CategoriaDTO  record = new();
+
+
 
             record = new CategoriaDTO
             {
@@ -68,7 +70,7 @@ namespace _06_Inventory.Api.Controllers
 
             saveRecord.DESCRIPCION = categoriaDTO.Description;
             saveRecord.ULT_MODIF_TSTAMP = DateTime.Now;
-            saveRecord.ULT_MODIF_USUARIO = categoriaDTO.updateUser;
+            saveRecord.ULT_MODIF_USUARIO = categoriaDTO.UpdateUser;
 
             try
             {
@@ -84,8 +86,8 @@ namespace _06_Inventory.Api.Controllers
             return Ok(saveRecord);
         }
 
-        [HttpPost("createCategoria")]
-        public async Task<ActionResult<CATEGORIA>> createCategoria(CategoriaDTO categoriaDTO)
+        [HttpPost("CreateCategoria")]
+        public async Task<ActionResult<CATEGORIA>> CreateCategoria(CategoriaDTO categoriaDTO)
         {
             if (categoriaDTO == null)
                 return NoContent();
@@ -97,7 +99,7 @@ namespace _06_Inventory.Api.Controllers
                 CODIGO = categoriaDTO.Code,
                 DESCRIPCION = categoriaDTO.Description,
                 ULT_MODIF_TSTAMP = DateTime.Now,
-                ULT_MODIF_USUARIO = categoriaDTO.updateUser
+                ULT_MODIF_USUARIO = categoriaDTO.UpdateUser
             };
 
             try
@@ -114,17 +116,19 @@ namespace _06_Inventory.Api.Controllers
             return Ok(createCategoria);
         }
 
-        [HttpPost("deleteCategoria/{categoriaID}")]
-        public async Task<ActionResult> deleteCategoria(int categoriaID)
+        [HttpPost("DeleteCategoria/{categoriaID}")]
+        public async Task<ActionResult> DeleteCategoria(int categoriaID)
         {
             await using var transaction = await _context.Database.BeginTransactionAsync();
 
 
             string sql = "BEGIN CAPBorrarCategoria(:pCategoria, :pResult); END;";
 
-            OracleParameter pCategoria = new OracleParameter("pCategoria", categoriaID);
-            OracleParameter pResult = new OracleParameter("pResult", OracleDbType.Varchar2, System.Data.ParameterDirection.InputOutput) { Size = 4000 };
+            OracleParameter pCategoria = new("pCategoria", categoriaID);
+            OracleParameter pResult = new ("pResult", OracleDbType.Varchar2, System.Data.ParameterDirection.InputOutput) { Size = 4000 };
 
+            OracleParameter ppResult = new ("pResult", OracleDbType.Varchar2, System.Data.ParameterDirection.InputOutput) { Size = 4000 };
+            
             await _context.Database.ExecuteSqlCommandAsync(sql, pCategoria, pResult);
 
             if (pResult.Value.ToString().Equals("null"))
@@ -140,13 +144,12 @@ namespace _06_Inventory.Api.Controllers
         }
 
         [HttpPost("ImportCategorias")]
-        public async Task<ActionResult> ImportCategorias([FromBody] IEnumerable<CategoriaDTO> categoriaDTOs)
+        public async Task<ActionResult> ImportCategorias([FromBody] IEnumerable<CategoriaDTO> categoriaDTOs )
         {
 
 
             if (categoriaDTOs is null)
                 return NotFound();
-
             else
             {
                 var addCategorias = from A in categoriaDTOs
@@ -166,7 +169,6 @@ namespace _06_Inventory.Api.Controllers
                 {
                     return BadRequest(ex.Message);
                 }
-
 
                 return Ok();
             }
