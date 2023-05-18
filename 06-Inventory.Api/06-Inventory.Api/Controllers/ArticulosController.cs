@@ -23,88 +23,155 @@ namespace _06_Inventory.Api.Controllers
         [HttpGet("GetAllArticulos")]
         public async Task<ActionResult> GetAllArticulos()
         {
-            var items = await _context.ARTICULOS.ToArrayAsync();
+            MessageResponseDTO responseDTO = new();
+            try
+            {
+                var items = await _context.ARTICULOS.ToListAsync();
 
-            if (!items.Any())
-                return NotFound();
+                if (!items.Any())
+                {
+                    //return NotFound();
+                    //return NotFound(new { message = "No Existen Articulos por listar" });
+                    responseDTO.Type = "Danger";
+                    responseDTO.Message = "No éxisten artículos por listar";
+                    return new OkObjectResult(responseDTO);
+                }
 
-            var articulos = (from item in items
-                             select new ArticulosDTO
-                             {
-                                 Code = item.CODIGO,
-                                 Description = item.DESCRIPCION,
-                                 Category = item.CATEGORIA,
-                                 Brand = item.MARCA,
-                                 Weight = item.PESO,
-                                 BarCode = item.CODIGO_BARRAS,
-                                 CreateDate = item.CREACION_TSTAMP,
-                                 CreateUser = item.CREACION_USUARIO,
-                                 UpdateDate = item.ULT_MODIF_TSTAMP,
-                                 UpdateUser = item.ULT_MODIF_USUARIO
-                             }).ToList();
+                var articulos = (from item in items
+                                 select new ArticulosDTO
+                                 {
+                                     Code = item.CODIGO,
+                                     Description = item.DESCRIPCION,
+                                     Category = item.CATEGORIA,
+                                     Brand = item.MARCA,
+                                     Weight = item.PESO,
+                                     BarCode = item.CODIGO_BARRAS,
+                                     CreateDate = item.CREACION_TSTAMP,
+                                     CreateUser = item.CREACION_USUARIO,
+                                     UpdateDate = item.ULT_MODIF_TSTAMP,
+                                     UpdateUser = item.ULT_MODIF_USUARIO
+                                 }).ToList();
 
-            return Ok(articulos);
+                return Ok(articulos);
+            }
+            catch (Exception ex)
+            {
+                //return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+                responseDTO.Code = StatusCodes.Status500InternalServerError;
+                responseDTO.Type = "Danger";
+                responseDTO.Message = ex.Message;
+
+                return new OkObjectResult(responseDTO);
+            }
+
         }
 
         [HttpGet("GetArticulo/{articuloId}")]
         public async Task<ActionResult> GetCategoria(int articuloId)
         {
-            var item = await _context.ARTICULOS.FirstOrDefaultAsync(x => x.CODIGO == articuloId);
-
-            if (item == null)
-                return NotFound();
-
-            ArticulosDTO record = new();
-
-            record = new ArticulosDTO
+            MessageResponseDTO responseDTO = new();
+            try
             {
-                Code = item.CODIGO,
-                Description = item.DESCRIPCION,
-                Category = item.CATEGORIA,
-                Brand = item.MARCA,
-                Weight = item.PESO,
-                BarCode = item.CODIGO_BARRAS
-            };
+                var item = await _context.ARTICULOS.FirstOrDefaultAsync(x => x.CODIGO == articuloId);
 
-            return Ok(record);
-        }
+                if (item == null)
+                {
+                    //return NotFound();
+                    responseDTO.Type = "Danger";
+                    responseDTO.Message = "No éxiste artículo por listar";
+                    return new OkObjectResult(responseDTO);
+                }
+
+                ArticulosDTO record = new();
+
+                record = new ArticulosDTO
+                {
+                    Code = item.CODIGO,
+                    Description = item.DESCRIPCION,
+                    Category = item.CATEGORIA,
+                    Brand = item.MARCA,
+                    Weight = item.PESO,
+                    BarCode = item.CODIGO_BARRAS
+                };
+
+                return Ok(record);
+            }
+            catch (Exception ex)
+            {
+                //return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+                responseDTO.Code = StatusCodes.Status500InternalServerError;
+                responseDTO.Type = "Danger";
+                responseDTO.Message = ex.Message;
+
+                return new OkObjectResult(responseDTO);
+            }
+        }   
 
         [HttpPut("SaveArticulo")]
         public async Task<ActionResult<ARTICULOS>> SaveArticulo(ArticulosDTO articulosDTO)
         {
-            var saveRecord = await _context.ARTICULOS.FirstOrDefaultAsync(x => x.CODIGO == articulosDTO.Code);
-
-            if (saveRecord == null)
-                return NotFound();
-
-            saveRecord.DESCRIPCION = articulosDTO.Description;
-            saveRecord.CATEGORIA = articulosDTO.Category;
-            saveRecord.MARCA = articulosDTO.Brand;
-            saveRecord.PESO = articulosDTO.Weight;
-            saveRecord.CODIGO_BARRAS = articulosDTO.BarCode;
-            saveRecord.ULT_MODIF_TSTAMP = DateTime.Now;
-            saveRecord.ULT_MODIF_USUARIO = articulosDTO.UpdateUser;
-
+            MessageResponseDTO responseDTO = new();
             try
             {
-                _context.ARTICULOS.Update(saveRecord);
-                await _context.SaveChangesAsync();
+                var saveRecord = await _context.ARTICULOS.FirstOrDefaultAsync(x => x.CODIGO == articulosDTO.Code);
+                if (saveRecord == null)
+                {
+                    //return NotFound();
+                    responseDTO.Type = "Danger";
+                    responseDTO.Message = "No éxiste artículo por listar";
+                    return new OkObjectResult(responseDTO);
+                }
+                
+                saveRecord.DESCRIPCION = articulosDTO.Description;
+                saveRecord.CATEGORIA = articulosDTO.Category;
+                saveRecord.MARCA = articulosDTO.Brand;
+                saveRecord.PESO = articulosDTO.Weight;
+                saveRecord.CODIGO_BARRAS = articulosDTO.BarCode;
+                saveRecord.ULT_MODIF_TSTAMP = DateTime.Now;
+                saveRecord.ULT_MODIF_USUARIO = articulosDTO.UpdateUser;
 
+                try
+                {
+                    _context.ARTICULOS.Update(saveRecord);
+                    await _context.SaveChangesAsync();
+
+                    return Ok(saveRecord);
+                }
+                catch (Exception ex)
+                {
+                    //return BadRequest(ex.Message);
+                    responseDTO.Code = StatusCodes.Status500InternalServerError;
+                    responseDTO.Type = "Danger";
+                    responseDTO.Message = ex.Message;
+
+                    return new OkObjectResult(responseDTO);
+                }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
-            }
+                //return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+                responseDTO.Code = StatusCodes.Status500InternalServerError;
+                responseDTO.Type = "Danger";
+                responseDTO.Message = ex.Message;
 
-            return Ok(saveRecord);
+                return new OkObjectResult(responseDTO);
+            }
         }
 
         [HttpPost("CreateArticulo")]
         public async Task<ActionResult<CATEGORIA>> CreateArticulo(ArticulosDTO articulosDTO)
         {
+            MessageResponseDTO responseDTO = new();
             if (articulosDTO == null)
                 return NoContent();
 
+            var existCategoriaId = ExistArticuloID(articulosDTO.Code);
+
+            if (existCategoriaId)
+            {
+                return BadRequest(new { message = $"Artículo {articulosDTO.Code} ya éxiste" });
+            }
+            
             ARTICULOS createArticulo;
 
             createArticulo = new ARTICULOS
@@ -123,51 +190,76 @@ namespace _06_Inventory.Api.Controllers
             {
                 await _context.ARTICULOS.AddRangeAsync(createArticulo);
                 await _context.SaveChangesAsync();
+
+                return Ok(createArticulo);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
-            }
+                //return BadRequest(ex.Message);
+                responseDTO.Code = StatusCodes.Status500InternalServerError;
+                responseDTO.Type = "Danger";
+                responseDTO.Message = ex.Message;
 
-            return Ok(createArticulo);
+                return new OkObjectResult(responseDTO);
+            }
         }
 
         [HttpPost("DeleteArticulo/{ArticuloID}")]
-        public async Task<ActionResult> DeleteArticulo(int ArticuloID)
+        public async Task<ActionResult> DeleteArticulo(int articuloId)
         {
-            await using var transaction = await _context.Database.BeginTransactionAsync();
+            var deleteRecord = await _context.ARTICULOS.FirstOrDefaultAsync(x => x.CODIGO == articuloId);
 
-            string sql = "BEGIN CAPBorrarArticulos(:pArticulo, :pResult); END;";
+            if (deleteRecord == null)
+                return NotFound(new { message = $"No Existe clase <{articuloId}> por listar" });
 
-            OracleParameter pArticulo = new("pArticulo", ArticuloID);
-            OracleParameter pResult = new("pResult", OracleDbType.Varchar2, System.Data.ParameterDirection.InputOutput) { Size = 4000 };
+            var response = new MessageResponseDTO();
 
-            await _context.Database.ExecuteSqlCommandAsync(sql, pArticulo, pResult);
-
-            if (pResult.Value.ToString().Equals("null"))
+            try
             {
-                await transaction.CommitAsync();
+                await using var transaction = await _context.Database.BeginTransactionAsync();
+                string sql = "BEGIN CAPBorrarArticulos(:pArticulo, :pResult); END;";
+
+                OracleParameter pArticulo = new("pArticulo", articuloId);
+                OracleParameter pResult = new("pResult", OracleDbType.Varchar2, System.Data.ParameterDirection.InputOutput) { Size = 4000 };
+
+                //await _context.Database.ExecuteSqlCommandAsync(sql, pArticulo, pResult);
+                await _context.Database.ExecuteSqlRawAsync(sql, pArticulo, pResult);
+
+                if (pResult.Value.ToString().Equals("null"))
+                {
+                    await transaction.CommitAsync();
+                    response.Code = StatusCodes.Status200OK;
+                    response.Type = "Success";
+                    response.Message = $"El artículo {articuloId} ha sido excluido";
+                }
+                else
+                {
+                    response.Type = "Danger";
+                    response.Message = pResult.Value.ToString();
+                    await transaction.RollbackAsync();
+                };
+
+                return new OkObjectResult(response);
             }
-            else
+            catch (Exception ex)
             {
-                await transaction.RollbackAsync();
-            };
+                //return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+                response.Code = StatusCodes.Status500InternalServerError;
+                response.Type = "Danger";
+                response.Message = ex.Message;
 
-            if (pResult.Value.ToString().Equals("null"))
-            {
-                return Ok("Se eliminó registro");
-            }
-            else
-            {
-                return Ok(pResult.Value);
+                return new OkObjectResult(response);
             }
         }
+
 
         [HttpPost("ImportArticulos")]
         public async Task<ActionResult> ImportArticulos([FromBody] IEnumerable<ArticulosDTO> articulosDTOs)
         {
             if (articulosDTOs is null)
+            {
                 return NotFound();
+            }
             else
             {
                 var addArticulos = from A in articulosDTOs
@@ -194,6 +286,11 @@ namespace _06_Inventory.Api.Controllers
 
                 return Ok();
             }
+        }
+
+        private bool ExistArticuloID(long articuloId)
+        {
+            return _context.ARTICULOS.Any(x => x.CODIGO == articuloId);
         }
     }
 }

@@ -13,7 +13,11 @@ namespace _06_Inventory.Api.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-      
+            //modelBuilder.Entity<CATEGORIA>().Property(c => c.CREACION_TSTAMP).IsRequired(false);
+            //modelBuilder.Entity<CATEGORIA>().Property(c => c.CREACION_USUARIO).IsRequired(false);
+            //modelBuilder.Entity<CATEGORIA>().Property(c => c.ULT_MODIF_TSTAMP).IsRequired(false);
+            //modelBuilder.Entity<CATEGORIA>().Property(c => c.ULT_MODIF_USUARIO).IsRequired(false);
+
             modelBuilder.Entity<CATEGORIA>().HasKey(ba => new { ba.CODIGO });
             modelBuilder.Entity<ARTICULOS>().HasKey(ba => new { ba.CODIGO });
         }

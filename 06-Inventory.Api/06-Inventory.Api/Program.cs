@@ -8,6 +8,23 @@ using System.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 //// Add services to the container. FORMA 1
+IConfiguration configuration = builder.Configuration;
+//forma de leer direcatamente el valor de la propiedad de appsettings.
+var connection = configuration.GetValue<string>("ConnectionString");
+
+// forma de leer las propiedades del appsettings con clase
+builder.Services.Configure<SettingsValue>(configuration);
+var serviceProvider = builder.Services.BuildServiceProvider();
+var settings = serviceProvider.GetService<IOptions<SettingsValue>>();
+
+builder.Services.AddDbContext<NAFContext>(options =>
+{
+    options.UseOracle(settings.Value.ConnectionString, options => options.UseOracleSQLCompatibility("11"));
+});
+
+
+
+//// Add services to the container. FORMA 2
 //var serviceProvider = builder.Services.BuildServiceProvider(); //para la segunda forma de conexion
 //var settings = serviceProvider.GetService<IOptions<SettingsValue>>();
 
@@ -17,7 +34,7 @@ var builder = WebApplication.CreateBuilder(args);
 //});
 
 
-//// primera forma para leer solo el string de conexión (FORMA 2)
+//// primera forma para leer solo el string de conexión (FORMA 3)
 //IConfiguration configuration = builder.Configuration;
 //var connection = configuration.GetValue<string>("ConnectionString");
 
@@ -28,15 +45,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
-// Add services to the container. (FORNA 3)
-var cadenaConexion = builder.Configuration.GetConnectionString("ConnectionString");
+//// Add services to the container. (FORNA 4)
+//var cadenaConexion = builder.Configuration.GetConnectionString("ConnectionString");
 
-builder.Services.AddDbContext<NAFContext>(x =>
-    x.UseOracle(
-        cadenaConexion,
-        options => options.UseOracleSQLCompatibility("11")
-)
-);
+//builder.Services.AddDbContext<NAFContext>(x =>
+//    x.UseOracle(
+//        cadenaConexion,
+//        options => options.UseOracleSQLCompatibility("11")
+//)
+//);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
