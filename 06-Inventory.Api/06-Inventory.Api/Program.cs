@@ -1,9 +1,11 @@
 using _06_Inventory.Api;
 using _06_Inventory.Api.Infrastructure;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Configuration;
+using _06_Inventory.Api.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,13 @@ builder.Services.AddDbContext<NAFContext>(options =>
     options.UseOracle(settings.Value.ConnectionString, options => options.UseOracleSQLCompatibility("11"));
 });
 
+//automapper
+var mappingConfig = new MapperConfiguration(c =>
+{
+    c.AddProfile(new AutoMapping());
+});
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 
 //// Add services to the container. FORMA 2

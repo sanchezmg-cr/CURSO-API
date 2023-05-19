@@ -1,12 +1,12 @@
-﻿using _06_Inventory.Api.DTO;
-using _06_Inventory.Api.Infrastructure;
-using _06_Inventory.Api.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Oracle.ManagedDataAccess.Client;
-using System.ComponentModel.Design;
-using System.Runtime.InteropServices;
+
+using _06_Inventory.Api.DTO;
+using _06_Inventory.Api.Infrastructure;
+using _06_Inventory.Api.Model.Enumerations;
+using _06_Inventory.Api.Models;
 
 namespace _06_Inventory.Api.Controllers
 {
@@ -15,16 +15,29 @@ namespace _06_Inventory.Api.Controllers
     public class CategoriaController : ControllerBase
     {
         private readonly NAFContext _context;
-
-        public CategoriaController(NAFContext context)
+        private readonly IStringLocalizer<Resources.SharedMessages> _sharedMessagesLocalizer;
+        
+        public CategoriaController(NAFContext context
+                                 ,IStringLocalizer<Resources.SharedMessages> sharedMessagesLocalizer)
         {
             _context = context;
+            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            //_sharedMessagesLocalizer = sharedMessagesLocalizer;
         }
+
 
         [HttpGet("GetAllCategorias")]
         public async Task<ActionResult> GetAllCategorias()
         {
+            var responsetype = new MessagesResponseTypes("Info","Johan");
+
+            string resultado = responsetype.ToString();
+
             var response = new MessageResponseDTO();
+            response.Message = MessagesResponseTypes.Danger.Name;
+            response.Type = MessagesResponseTypes.Danger.Key;
+
+
             try
             {
                 var items = await _context.CATEGORIA.OrderBy(x => x.CODIGO).ToListAsync();
