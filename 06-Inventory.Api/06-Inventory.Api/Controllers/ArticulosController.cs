@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Oracle.ManagedDataAccess.Client;
 using System.Drawing.Drawing2D;
 
@@ -16,11 +17,16 @@ namespace _06_Inventory.Api.Controllers
     {
         private readonly NAFContext _context;
         private readonly IMapper _mapper;
+        private readonly IStringLocalizer<Resources.SharedMessages> _sharedMessagesLocalizer;
 
-        public ArticulosController(NAFContext context, IMapper mapper)
+
+        public ArticulosController(NAFContext context, IMapper mapper, IStringLocalizer<Resources.SharedMessages> sharedMessagesLocalizer)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _mapper = mapper;
+            _sharedMessagesLocalizer = sharedMessagesLocalizer;
+
         }
 
         [HttpGet("GetAllArticulos")]
@@ -29,48 +35,54 @@ namespace _06_Inventory.Api.Controllers
             MessageResponseDTO responseDTO = new();
             try
             {
-                //var items = await _context.ARTICULOS.OrderBy(x => x.CODIGO).ToListAsync();
-
-
-                //if (!items.Any())
                 //{
-                //    //return NotFound();
-                //    //return NotFound(new { message = "No Existen Articulos por listar" });
-                //    responseDTO.Type = "Danger";
-                //    responseDTO.Message = "No éxisten artículos por listar";
-                //    return new OkObjectResult(responseDTO);
+                //    var items = await _context.ARTICULOS.OrderBy(x => x.CODIGO).ToListAsync();
+
+
+                //    if (!items.Any())
+                //    {
+                //        //return NotFound();
+                //        //return NotFound(new { message = "No Existen Articulos por listar" });
+                //        responseDTO.Type = "Danger";
+                //        responseDTO.Message = "No éxisten artículos por listar";
+                //        return new OkObjectResult(responseDTO);
+                //    }
+
+                //    var articulos = _mapper.Map<List<ArticulosDTO>>(items);
+
+                //    //// opcion 1 poco eficiente
+                //    //foreach (var item in articulos)
+                //    //{
+                //    //    var category = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == item.Category);
+                //    //    item.CategoryDescription = category.DESCRIPCION;
+                //    //}
+
+
+                //    // forma 2 poco eficiente
+                //    var articulos = await (from item in _context.ARTICULOS
+                //                           select new ArticulosDTO
+                //                           {
+                //                               Code = item.CODIGO,
+                //                               Description = item.DESCRIPCION,
+                //                               Category = item.CATEGORIA,
+                //                               CategoryDescription = _context.CATEGORIA.FirstOrDefault(x => x.CODIGO == item.CATEGORIA).DESCRIPCION,
+                //                               Brand = item.MARCA,
+                //                               Weight = item.PESO,
+                //                               BarCode = item.CODIGO_BARRAS,
+                //                               CreateDate = item.CREACION_TSTAMP,
+                //                               CreateUser = item.CREACION_USUARIO,
+                //                               UpdateDate = item.ULT_MODIF_TSTAMP,
+                //                               UpdateUser = item.ULT_MODIF_USUARIO
+                //                           }).ToListAsync();
                 //}
+                var dato4 = _sharedMessagesLocalizer.GetString("Deduction", "Deduction").Value;
+                var dato3 = _sharedMessagesLocalizer.GetString("Ingreso").Value;
+                var dato2 = _sharedMessagesLocalizer.GetString("Ingreso").ToString();
+                var dato1 = _sharedMessagesLocalizer.GetString("Income");
 
-                //var articulos = _mapper.Map<List<ArticulosDTO>>(items);
-
-                ////// opcion 1 poco eficiente
-                ////foreach (var item in articulos)
-                ////{
-                ////    var category = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == item.Category);
-                ////    item.CategoryDescription = category.DESCRIPCION;
-                ////}
-
-
-                //// forma 2 poco eficiente
-                //var articulos = await (from item in _context.ARTICULOS
-                //                 select new ArticulosDTO
-                //                 {
-                //                     Code = item.CODIGO,
-                //                     Description = item.DESCRIPCION,
-                //                     Category = item.CATEGORIA,
-                //                     CategoryDescription = _context.CATEGORIA.FirstOrDefault(x => x.CODIGO == item.CATEGORIA).DESCRIPCION,
-                //                     Brand = item.MARCA,
-                //                     Weight = item.PESO,
-                //                     BarCode = item.CODIGO_BARRAS,
-                //                     CreateDate = item.CREACION_TSTAMP,
-                //                     CreateUser = item.CREACION_USUARIO,
-                //                     UpdateDate = item.ULT_MODIF_TSTAMP,
-                //                     UpdateUser = item.ULT_MODIF_USUARIO
-                //                 }).ToListAsync();
 
                 var articulos = await (from item in _context.ARTICULOS
-                                       join cate in _context.CATEGORIA
-                                       on item.CATEGORIA equals cate.CODIGO
+                                       join cate in _context.CATEGORIA on item.CATEGORIA equals cate.CODIGO
                                        select new ArticulosDTO
                                        {
                                            Code = item.CODIGO,
@@ -124,27 +136,24 @@ namespace _06_Inventory.Api.Controllers
                                           CreateUser = item.CREACION_USUARIO,
                                           UpdateDate = item.ULT_MODIF_TSTAMP,
                                           UpdateUser = item.ULT_MODIF_USUARIO
-                                      }).ToListAsync();
+                                      }).FirstOrDefaultAsync();
                 if (articulo == null)
                 {
                     //return NotFound();
                     responseDTO.Type = "Danger";
                     responseDTO.Message = "No éxiste artículo por listar";
+
+                    //var dato4 = _sharedMessagesLocalizer.GetString("Income");
+                    //var dato3 = _sharedMessagesLocalizer.GetString("Ingreso").Value;
+                    //var dato2 = _sharedMessagesLocalizer.GetString("Ingreso").ToString();
+                    //var dato1 = _sharedMessagesLocalizer.GetString("Income", articuloId);
+                    //var dato0 = _sharedMessagesLocalizer.GetString("DeleteArticuloExito", $"{articuloId}");
+
+                    //responseDTO.Message = _sharedMessagesLocalizer.GetString("DeleteArticuloExito", articuloId);
+
                     return new OkObjectResult(responseDTO);
                 }
 
-                //var record = _mapper.Map<ArticulosDTO>(item);
-                //ArticulosDTO record = new();
-
-                //record = new ArticulosDTO
-                //{
-                //    Code = item.CODIGO,
-                //    Description = item.DESCRIPCION,
-                //    Category = item.CATEGORIA,
-                //    Brand = item.MARCA,
-                //    Weight = item.PESO,
-                //    BarCode = item.CODIGO_BARRAS
-                //};
 
                 return Ok(articulo);
             }
@@ -214,7 +223,7 @@ namespace _06_Inventory.Api.Controllers
         }
 
         [HttpPost("CreateArticulo")]
-        public async Task<ActionResult<CATEGORIA>> CreateArticulo(ArticulosDTO articulosDTO)
+        public async Task<ActionResult<ARTICULOS>> CreateArticulo(ArticulosDTO articulosDTO)
         {
             MessageResponseDTO responseDTO = new();
             if (articulosDTO == null)
@@ -273,6 +282,7 @@ namespace _06_Inventory.Api.Controllers
             try
             {
                 await using var transaction = await _context.Database.BeginTransactionAsync();
+
                 string sql = "BEGIN CAPBorrarArticulos(:pArticulo, :pResult); END;";
 
                 OracleParameter pArticulo = new("pArticulo", articuloId);
@@ -287,6 +297,9 @@ namespace _06_Inventory.Api.Controllers
                     response.Code = StatusCodes.Status200OK;
                     response.Type = "Success";
                     response.Message = $"El artículo {articuloId} ha sido excluido";
+                    response.Message = _sharedMessagesLocalizer.GetString("DeleteArticuloExitoso");
+
+                    response.Message = _sharedMessagesLocalizer.GetString("DeleteArticuloExitoso", pResult.Value.ToString()) + $"{articuloId}";
                 }
                 else
                 {

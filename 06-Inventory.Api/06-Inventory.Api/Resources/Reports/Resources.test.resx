@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CodeExists" xml:space="preserve">
+    <value>El código {0} ya existe. Por favor ingrese un código nuevo.</value>
+  </data>
+  <data name="CurrencyHeader" xml:space="preserve">
+    <value>Moneda:  {0}.</value>
+  </data>
+  <data name="ElementNonRemovable" xml:space="preserve">
+    <value>El elemento con el identificador {0} no puede ser eliminado.</value>
+  </data>
+  <data name="ElementNotFound" xml:space="preserve">
+    <value>El elemento con el identificador {0} no fue encontrado.</value>
+  </data>
+  <data name="ErrorDeleteEmployee" xml:space="preserve">
+    <value>Ocurrió un problema al eliminar empleado. Error {0}.</value>
+  </data>
+  <data name="ErrorInactivateEmployee" xml:space="preserve">
+    <value>Ocurrió un problema al inactivar empleado. Error {0}.</value>
+  </data>
+  <data name="ErrorPrepareData" xml:space="preserve">
+    <value>Ocurrió un problema al preparar datos. Error {0}.</value>
+  </data>
+  <data name="EmployeeSalaryReport" xml:space="preserve">
+    <value>Constancia Salarial</value>
+  </data>
+  <data name="InvalidCompany" xml:space="preserve">
+    <value>La compañia {0} no está creada en el mantenimiento de compañias</value>
+  </data>
+  <data name="NullElement" xml:space="preserve">
+    <value>Elemento nulo</value>
+  </data>
+  <data name="SuccessDeleteEmployee" xml:space="preserve">
+    <value>Empleado eliminado correctamente.</value>
+  </data>
+  <data name="SuccessInactivateEmployee" xml:space="preserve">
+    <value>Empleado inactivado correctamente.</value>
+  </data>
+  <data name="SuccessPrepareDate" xml:space="preserve">
+    <value>Proceso de preparación de datos realizado con éxito.</value>
+  </data>
+  <data name="RangeDateHeader" xml:space="preserve">
+    <value>Del {0} al {1}</value>
+  </data>
+  <data name="Sucess" xml:space="preserve">
+    <value>Exitoso.</value>
+  </data>
+  <data name="ValidateEmployeeIdentificationError" xml:space="preserve">
+    <value>Error validando la identificación del empleado {0}</value>
+  </data>
+  <data name="ValidateEmployeeTypeError" xml:space="preserve">
+    <value>Error validando el tipo de empleado: {0}</value>
+  </data>
+  <data name="ValidateRecruitmentDateError" xml:space="preserve">
+    <value>Error validando la fecha de ingreso: {0}</value>
+  </data>
+  <data name="DeletePersonnelActionError" xml:space="preserve">
+    <value>La acción de personal con número de acción {0}, presentó un error al eliminar. Error: {1}.</value>
+  </data>
+  <data name="DeletePersonnelActionSuccess" xml:space="preserve">
+    <value>Se eliminó la acción de personal con número de acción {0} exitosamente.</value>
+  </data>
+  <data name="EmitPersonnelActionError" xml:space="preserve">
+    <value>La acción de personal con número de acción {0}, presentó un error al emitir. Error: {1}.</value>
+  </data>
+  <data name="EmitPersonnelActionSuccess" xml:space="preserve">
+    <value>Se emitió la acción de personal con número de acción {0} exitosamente.</value>
+  </data>
+  <data name="UpdatePersonnelActionError" xml:space="preserve">
+    <value>La acción de personal con número de acción {0}, presentó un error al actualizar. Error: {1}.</value>
+  </data>
+  <data name="UpdatePersonnelActionSuccess" xml:space="preserve">
+    <value>Se actualizó la acción de personal con número de acción {0} exitosamente.</value>
+  </data>
+  <data name="ValidateEmployeeError" xml:space="preserve">
+    <value>Error validando el empleado: {0}.</value>
+  </data>
+  <data name="ValidatePersonnelActionEntriesEmployeePendError" xml:space="preserve">
+    <value>No se pudo validar si el empleado tiene acciones de personal pendientes. Error: {0}.</value>
+  </data>
+  <data name="Module" xml:space="preserve">
+    <value>Nómina</value>
+  </data>
+  <data name="PersonnelActionEntry" xml:space="preserve">
+    <value>Emisión de acciones de personal</value>
+  </data>
+  <data name="UpdatePersonnelActionWithMessageSuccess" xml:space="preserve">
+    <value>Se actualizó la acción de personal con número de acción {0} exitosamente. Nota: {1}.</value>
+  </data>
+  <data name="PersonnelActionSettlement" xml:space="preserve">
+    <value>Hoja de liquidación de personal</value>
+  </data>
+  <data name="EmitPersonnelActionEntriesError" xml:space="preserve">
+    <value>Las siguientes acciones de personal presentaron problemas en la emisión: {0}.</value>
+  </data>
+  <data name="EmitPersonnelActionEntriesSucess" xml:space="preserve">
+    <value>Las siguientes acciones de personal se emitieron correctamente: {0}</value>
+  </data>
+  <data name="NoProcessResponse" xml:space="preserve">
+    <value>El proceso no retornó respuesta. Vuelva a intentarlo.</value>
+  </data>
+  <data name="UpdatePersonnelActionEntriesError" xml:space="preserve">
+    <value>Las siguientes acciones de personal presentaron problemas en la actualización: {0}.</value>
+  </data>
+  <data name="UpdatePersonnelActionEntriesSuccessMessage" xml:space="preserve">
+    <value>Mensaje: {0}.</value>
+  </data>
+  <data name="UpdatePersonnelActionEntriesSucess" xml:space="preserve">
+    <value>Las siguientes acciones de personal se actualizaron correctamente.</value>
+  </data>
+  <data name="ExecuteAccountingSeatSuccessMessage" xml:space="preserve">
+    <value>¡Se ha generado con éxito el asiento contable!</value>
+  </data>
+  <data name="ExecutePayrollClosureSuccessMessage" xml:space="preserve">
+    <value>¡Se ha ejecutado con éxito el cierre de nómina!</value>
+  </data>
+  <data name="ErrorAdvanceCreated" xml:space="preserve">
+    <value>Ocurrió un problema al crear anticipo. Error {0} .</value>
+  </data>
+  <data name="ErrorAdvanceUpdated" xml:space="preserve">
+    <value>Ocurrió un problema al actualizar anticipo. Error {0} .</value>
+  </data>
+  <data name="ErrorDeleteAdvance" xml:space="preserve">
+    <value>Ocurrió un problema al eliminar anticipo. Error {0}.</value>
+  </data>
+  <data name="SuccessAdvanceCreated" xml:space="preserve">
+    <value>Anticipo #{0} creado exitosamente.</value>
+  </data>
+  <data name="SuccessAdvanceUpdated" xml:space="preserve">
+    <value>Anticipo #{0} ha sido actualizado exitosamente.</value>
+  </data>
+  <data name="SuccessDeleteAdvance" xml:space="preserve">
+    <value>Anticipo eliminado correctamente.</value>
+  </data>
+  <data name="ConstancySalaryLine1" xml:space="preserve">
+    <value>Por medio de la presente se hace constar que el Señor(a) {0}</value>
+  </data>
+  <data name="ConstancySalaryLine2" xml:space="preserve">
+    <value> portador de la cédula de identidad número, {0} labora para esta empresa desde el {1} de {2} del {3},</value>
+  </data>
+  <data name="ConstancySalaryLine3" xml:space="preserve">
+    <value> en la cual se desempeña como {0} devengando un salario bruto de {1} ( {2} )</value>
+  </data>
+  <data name="ConstancySalaryLine4" xml:space="preserve">
+    <value> y un salario liquido de {0} ( {1} ) el cual se encuentra libre de gravámenes y embargos.</value>
+  </data>
+  <data name="ConstancySalaryGreeting" xml:space="preserve">
+    <value>A quien interese</value>
+  </data>
+  <data name="ConstancySalaryKindRegards" xml:space="preserve">
+    <value>Atentamente</value>
+  </data>
+  <data name="ConstancySalaryRequest" xml:space="preserve">
+    <value>Se extiende la presente a solicitud del interesado el {0}.</value>
+  </data>
+  <data name="Deduction" xml:space="preserve">
+    <value>Deducción</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>Ingreso</value>
+  </data>
+  <data name="SetupSuccessMessage" xml:space="preserve">
+    <value>Se prepararon los cheques y transferencias de la nómina {0} exitosamente.</value>
+  </data>
+  <data name="SuccessGenerateSalaryIncrease" xml:space="preserve">
+    <value>La generación del aumento salarial fue existosa.</value>
+  </data>
+  <data name="AnnulPersonnelActionEntriesSuccess" xml:space="preserve">
+    <value>Se anulo la acción de personal con número de acción {0} exitosamente.</value>
+  </data>
+  <data name="ErrorGenerateFromMarks" xml:space="preserve">
+    <value>Error generando los ingresos de marcas: {0}</value>
+  </data>
+  <data name="ErrorGenerateMarks" xml:space="preserve">
+    <value>Error al generar  marcas: {0}</value>
+  </data>
+  <data name="ErrorValidateMarks" xml:space="preserve">
+    <value>Error al validar marcas: {{0}</value>
+  </data>
+  <data name="SuccessGenerateFromMarks" xml:space="preserve">
+    <value>Ingresos de marcas generados correctamente.</value>
+  </data>
+  <data name="SuccessGenerateMarks" xml:space="preserve">
+    <value>Se generó las marcas correctamente.</value>
+  </data>
+  <data name="SuccessValidateMarks" xml:space="preserve">
+    <value>Marcas validadas correactamente.</value>
+  </data>
+  <data name="MarksReportName" xml:space="preserve">
+    <value>Reporte de marcas por empleado</value>
+  </data>
+  <data name="PaymentReportName" xml:space="preserve">
+    <value>Pago a empleados</value>
+  </data>
+  <data name="ValidateCompanyMinimunSalaryError" xml:space="preserve">
+    <value>No existe un salario mínimo definido en la compañía.</value>
+  </data>
+  <data name="ValidateLessThanCompanyMinimunSalaryError" xml:space="preserve">
+    <value>El valor no puede ser menor al salario mínimo definido en la compañía.</value>
+  </data>
+  <data name="ElementIsNull" xml:space="preserve">
+    <value>Se presenta error al intentar guardar, el elemento es nulo.</value>
+  </data>
+  <data name="SuccessfulCreation" xml:space="preserve">
+    <value>La creación del elemento fue exitosa.</value>
+  </data>
+  <data name="WorkdayCompleted" xml:space="preserve">
+    <value>Proceso de carga del archivo Workday finalizado con éxito.</value>
+  </data>
+  <data name="WorkdayError" xml:space="preserve">
+    <value>Error en proceso de carga del archivo Workday: </value>
+  </data>
+  <data name="WorkdayInitialized" xml:space="preserve">
+    <value>Proceso de carga del archivo Workday iniciado.</value>
+  </data>
+  <data name="JDECompleted" xml:space="preserve">
+    <value>Proceso de carga del archivo de ingreso y acciones de personal finalizado con éxito.</value>
+  </data>
+  <data name="JDEError" xml:space="preserve">
+    <value>Error en proceso de carga del archivo de ingreso y acciones de personal:</value>
+  </data>
+  <data name="JDEInitialized" xml:space="preserve">
+    <value>Proceso de carga del archivo de ingreso y acciones de personal iniciado.</value>
+  </data>
+  <data name="ErrorActivateEmployee" xml:space="preserve">
+    <value>Ocurrió un problema al activar el empleado. Error {0}.</value>
+  </data>
+  <data name="SuccessActivateEmployee" xml:space="preserve">
+    <value>Empleado activado correctamente.</value>
+  </data>
+</root>

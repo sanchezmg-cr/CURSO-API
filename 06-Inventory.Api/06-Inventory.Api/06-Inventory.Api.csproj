@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>_06_Inventory.Api</RootNamespace>
+    <RootNamespace>06-Inventory.Api</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Reports\" />
+    <EmbeddedResource Update="Resources\Reports\Resources.Recursos.es.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

@@ -22,7 +22,7 @@ namespace _06_Inventory.Api.Controllers
         {
             _context = context;
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            //_sharedMessagesLocalizer = sharedMessagesLocalizer;
+            _sharedMessagesLocalizer = sharedMessagesLocalizer;
         }
 
 
