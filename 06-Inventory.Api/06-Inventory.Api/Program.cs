@@ -9,8 +9,13 @@ using _06_Inventory.Api.Mapper;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using NLog.Web;
+using NLog.Extensions.Logging;
+using _06_Inventory.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
 // Add services to the container. (FORMA 1)
 //{
@@ -72,13 +77,13 @@ builder.Services.Configure<RequestLocalizationOptions>(options => {
 //builder.Services.AddScoped<ProductService>();
 
 //automapper
-var mappingConfig = new MapperConfiguration(c =>
+var mappingConfig = new MapperConfiguration(mc =>
 {
-    c.AddProfile(new AutoMapping());
+    mc.AddProfile(new AutoMapping());
 });
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
-
+ConfigureLoggin(builder.Logging);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -114,6 +119,17 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.MapControllers();
 
 app.Run();
+
+
+
+void ConfigureLoggin(ILoggingBuilder loggingBuidler)
+{
+    loggingBuidler.ClearProviders();
+    loggingBuidler.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+    loggingBuidler.AddNLog();
+}

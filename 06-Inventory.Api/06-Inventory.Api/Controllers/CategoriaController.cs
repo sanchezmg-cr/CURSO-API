@@ -7,6 +7,7 @@ using _06_Inventory.Api.DTO;
 using _06_Inventory.Api.Infrastructure;
 using _06_Inventory.Api.Model.Enumerations;
 using _06_Inventory.Api.Models;
+using AutoMapper;
 
 namespace _06_Inventory.Api.Controllers
 {
@@ -15,12 +16,21 @@ namespace _06_Inventory.Api.Controllers
     public class CategoriaController : ControllerBase
     {
         private readonly NAFContext _context;
+        private readonly IMapper _mapper;
+        private readonly ILogger<CategoriaController> _logger;
+
         private readonly IStringLocalizer<Resources.SharedMessages> _sharedMessagesLocalizer;
         
-        public CategoriaController(NAFContext context
+        public CategoriaController(NAFContext context,
+            IMapper mapper,
+            ILogger<CategoriaController> logger
                                  ,IStringLocalizer<Resources.SharedMessages> sharedMessagesLocalizer)
         {
             _context = context;
+            _mapper = mapper;
+            _logger = logger;
+
+
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _sharedMessagesLocalizer = sharedMessagesLocalizer;
         }
@@ -40,6 +50,8 @@ namespace _06_Inventory.Api.Controllers
 
             try
             {
+                _logger.LogError("Inicio log");
+
                 var items = await _context.CATEGORIA.OrderBy(x => x.CODIGO).ToListAsync();
 
                 if (!items.Any())
