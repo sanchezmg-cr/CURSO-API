@@ -6,7 +6,7 @@
             {
             public static string GetAllCategories(string baseUri)
         {
-                return $"{baseUri}Categoria/GetAllCategories";
+                return $"{baseUri}Categories/GetAllCategories";
         }
     }
 }

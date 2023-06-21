@@ -4,4 +4,102 @@
 }
 
 
-<h2>Categorias</h2>
+<div class="container">
+    <div>
+        <h2 class="text-center text-info">Categorias</h2>
+    </div>
+
+    <div>
+        <form id="forms" asp-page="./Index" method="post">
+            <input asp-for="ActionType" type="hidden" id="actionTypeHidden"/>
+            <input asp-for="ActionData" type="hidden" id="actionDatahidden"/>
+            <div id="categoriesGrid"></div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        LoadControls();
+
+        function LoadControls() {
+            var dataSource = ParseDataSourceToJson(@Html.Raw(Model.DataSource));
+
+            var dataOptions = {
+                dataSource: dataSource,
+                keyExpr: "code",
+                showBorders: true,
+                paging: {
+                    enabled: true,
+                    pageSize: 10
+                },
+                searchPanel: {
+                    visible: true,
+                    width: 277,
+                    placeholder: "Buscar"
+                },
+                editing: {
+                    mode: "row",
+                    allowUpdating: true,
+                    allowDeleting: true,
+                    allowAdding: true,
+                    texts: {
+                        confirmDeleteMessage: "¿Está seguro de que desea eliminar este registro?",
+                        yes: "Si",
+                    }
+                },
+                rowAlternationEnabled: true,
+                showBorders: true,
+                columns: [
+                    {
+                        dataField: "code",
+                        caption: "Codigo",
+                        width: 150,
+
+
+
+                    },
+                    {
+                        dataField: "description",
+                        caption: "Descripción",
+
+
+
+                    },
+                ],
+                selection: {
+                    mode: "single"
+                },
+                onRowUpdating: function (e) {
+                    let data = null
+                    if (e.oldData && e.newData) {
+                        data = $.extend(e.oldData, e.newData);
+                        SubmitForm("Edit", JSON.stringify(data));
+                    }
+                },
+                onRowRemoving: function (e) {
+                    let rowKey = e.key;
+                    if (rowKey) {
+                        SubmitForm("Delete", rowKey);
+                    }
+                },
+                onRowInserting: function (e) {
+                    let data = e.data;
+                    if (data) {
+                        SubmitForm("Create", JSON.stringify(data));
+                    }
+                },
+                onInitNewRow: function (e) {
+                    e.component.columnOption("code", "allowEditing", true);
+                },
+                onEditingStart: function (e) {
+                    e.component.columnOption("code", "allowEditing", false);
+                },
+            };
+
+
+
+            $("#categoriesGrid").dxDataGrid(dataOptions);
+        }
+    </script>
+}

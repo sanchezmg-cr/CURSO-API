@@ -9,7 +9,7 @@ namespace _06_Inventory.Api.Models
         [Column(Order = 1)]
         public int CODIGO { get; set; }
         public string DESCRIPCION { get; set; }
-        
+
         public DateTime? CREACION_TSTAMP { get; set; }
         public string CREACION_USUARIO { get; set; }
         public DateTime? ULT_MODIF_TSTAMP { get; set; }
