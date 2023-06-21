@@ -3,7 +3,7 @@
     public interface IInventoryService
     {
         #region Category
-        Task<string> GetAllCategorias();
+        Task<string> GetAllCategories();
         #endregion
 
 

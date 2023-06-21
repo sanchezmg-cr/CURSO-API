@@ -13,17 +13,17 @@ namespace _06_Inventory.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriaController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
         private readonly NAFContext _context;
         private readonly IMapper _mapper;
-        private readonly ILogger<CategoriaController> _logger;
+        private readonly ILogger<CategoriesController> _logger;
 
         private readonly IStringLocalizer<Resources.SharedMessages> _sharedMessagesLocalizer;
         
-        public CategoriaController(NAFContext context,
+        public CategoriesController(NAFContext context,
             IMapper mapper,
-            ILogger<CategoriaController> logger
+            ILogger<CategoriesController> logger
                                  ,IStringLocalizer<Resources.SharedMessages> sharedMessagesLocalizer)
         {
             _context = context;
@@ -36,8 +36,8 @@ namespace _06_Inventory.Api.Controllers
         }
 
 
-        [HttpGet("GetAllCategorias")]
-        public async Task<ActionResult> GetAllCategorias()
+        [HttpGet("GetAllCategories")]
+        public async Task<ActionResult> GetAllCategories()
         {
             var responsetype = new MessagesResponseTypes("Info","Johan");
 
@@ -62,7 +62,7 @@ namespace _06_Inventory.Api.Controllers
                 }
 
                 var categorias = (from item in items
-                                  select new CategoriaDTO
+                                  select new CategoryDTO
                                   {
                                       Code = item.CODIGO,
                                       Description = item.DESCRIPCION
@@ -81,29 +81,29 @@ namespace _06_Inventory.Api.Controllers
             }
         }
 
-        [HttpGet("GetCategoria/{categoriaId}")]
-        public async Task<ActionResult> GetCategoria(int categoriaId)
+        [HttpGet("GetCategory/{categoryId}")]
+        public async Task<ActionResult> GetCategory(int categoryId)
         {
             var response = new MessageResponseDTO();
             try
             {
-                //var item = await _context.CATEGORIA.Where(x => x.CODIGO == categoriaId).FirstOrDefaultAsync();
-                var item = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == categoriaId);
+                //var item = await _context.CATEGORIA.Where(x => x.CODIGO == categoryId).FirstOrDefaultAsync();
+                var item = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == categoryId);
 
                 if (item is null)
                 {
                     //return NotFound();
-                    //return NotFound(new { message = $"No Existe clase <{categoriaId}> por listar" });
+                    //return NotFound(new { message = $"No Existe clase <{categoryId}> por listar" });
                     response.Code = StatusCodes.Status204NoContent;
                     response.Type = "Info";
-                    response.Message = $"No éxiste clase <{categoriaId}> por listar";
+                    response.Message = $"No éxiste clase <{categoryId}> por listar";
 
                     return new OkObjectResult(response);
                 }
 
-                CategoriaDTO record = new();
+                CategoryDTO record = new();
 
-                record = new CategoriaDTO
+                record = new CategoryDTO
                 {
                     Code = item.CODIGO,
                     Description = item.DESCRIPCION,
@@ -126,25 +126,25 @@ namespace _06_Inventory.Api.Controllers
             }
         }
 
-        [HttpPut("SaveCategoria")]
-        public async Task<ActionResult<CATEGORIA>> SaveCategoria(CategoriaDTO categoriaDTO)
+        [HttpPut("SaveCategory")]
+        public async Task<ActionResult<CATEGORIA>> SaveCategory(CategoryDTO CategoryDTO)
         {
             MessageResponseDTO response = new();
             try
             {
-                var saveRecord = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == categoriaDTO.Code);
+                var saveRecord = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == CategoryDTO.Code);
 
                 if (saveRecord == null)
-                    return NotFound(new { message = $"No Existe clase <{categoriaDTO.Code}> por listar" });
+                    return NotFound(new { message = $"No Existe clase <{CategoryDTO.Code}> por listar" });
 
-                saveRecord.DESCRIPCION = categoriaDTO.Description;
+                saveRecord.DESCRIPCION = CategoryDTO.Description;
                 saveRecord.ULT_MODIF_TSTAMP = DateTime.Now;
-                saveRecord.ULT_MODIF_USUARIO = categoriaDTO.UpdateUser;
+                saveRecord.ULT_MODIF_USUARIO = CategoryDTO.UpdateUser;
 
                 _context.CATEGORIA.Update(saveRecord);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetCategoria), new { categoriaId = categoriaDTO.Code }, categoriaDTO);
+                return CreatedAtAction(nameof(GetCategory), new { categoryId = CategoryDTO.Code }, CategoryDTO);
             }
             catch (Exception ex)
             {
@@ -157,35 +157,35 @@ namespace _06_Inventory.Api.Controllers
             }
         }
 
-        [HttpPost("CreateCategoria")]
-        public async Task<ActionResult<CATEGORIA>> CreateCategoria([FromBody] CategoriaDTO categoriaDTO)
+        [HttpPost("CreateCategory")]
+        public async Task<ActionResult<CATEGORIA>> CreateCategory([FromBody] CategoryDTO CategoryDTO)
         {
             MessageResponseDTO response = new();
             try
             {
-                if (categoriaDTO == null)
+                if (CategoryDTO == null)
                     return BadRequest(new { message = "Campo Requerido" });
 
-                var existCategoriaId = ExistCategoriaID(categoriaDTO.Code);
+                var existcategoryId = ExistcategoryId(CategoryDTO.Code);
 
-                if (existCategoriaId)
+                if (existcategoryId)
                 {
-                    return BadRequest(new { message = $"Clase {categoriaDTO.Code} ya éxiste" });
+                    return BadRequest(new { message = $"Clase {CategoryDTO.Code} ya éxiste" });
                 }
 
-                CATEGORIA createCategoria = new()
+                CATEGORIA CreateCategory = new()
                 {
-                    CODIGO = categoriaDTO.Code,
-                    DESCRIPCION = categoriaDTO.Description,
+                    CODIGO = CategoryDTO.Code,
+                    DESCRIPCION = CategoryDTO.Description,
                     CREACION_TSTAMP = DateTime.Now,
-                    CREACION_USUARIO = categoriaDTO.CreateUser
+                    CREACION_USUARIO = CategoryDTO.CreateUser
                 };
 
-                await _context.CATEGORIA.AddAsync(createCategoria);
+                await _context.CATEGORIA.AddAsync(CreateCategory);
                 await _context.SaveChangesAsync();
 
-                //return Ok(createCategoria);
-                return CreatedAtAction(nameof(GetCategoria), new { categoriaId = createCategoria.CODIGO }, categoriaDTO);
+                //return Ok(CreateCategory);
+                return CreatedAtAction(nameof(GetCategory), new { categoryId = CreateCategory.CODIGO }, CategoryDTO);
 
             }
             catch (Exception ex)
@@ -199,48 +199,48 @@ namespace _06_Inventory.Api.Controllers
             }
         }
 
-        [HttpDelete("DeleteCategory/{code}")]
-        public async Task<ActionResult> DeleteCategory(int categoriaId)
+        //[HttpDelete("DeleteCategory/{code}")]
+        //public async Task<ActionResult> DeleteCategory(int categoryId)
+        //{
+        //    MessageResponseDTO response = new();
+        //    try
+        //    {
+        //        var item = await _context.CATEGORIA.FirstOrDefaultAsync(c => c.CODIGO == categoryId);
+
+        //        if (item is null)
+        //            return NotFound();
+
+        //        _context.CATEGORIA.RemoveRange(item);
+
+        //        await _context.SaveChangesAsync();
+
+        //        //return Ok();
+        //        response.Code = StatusCodes.Status200OK;
+        //        response.Type = "Success";
+        //        response.Message = $"Las categoría {categoryId} ha sido excluida";
+
+        //        return new OkObjectResult(response);
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        //return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+        //        response.Code = StatusCodes.Status500InternalServerError;
+        //        response.Type = "Danger";
+        //        response.Message = ex.Message;
+
+        //        return new OkObjectResult(response);
+        //    }
+        //}
+
+
+        [HttpPost("DeleteCategory/{categoryId}")]
+        public async Task<ActionResult> DeleteCategory(int categoryId)
         {
-            MessageResponseDTO response = new();
-            try
-            {
-                var item = await _context.CATEGORIA.FirstOrDefaultAsync(c => c.CODIGO == categoriaId);
-
-                if (item is null)
-                    return NotFound();
-
-                _context.CATEGORIA.RemoveRange(item);
-
-                await _context.SaveChangesAsync();
-
-                //return Ok();
-                response.Code = StatusCodes.Status200OK;
-                response.Type = "Success";
-                response.Message = $"Las categoría {categoriaId} ha sido excluida";
-
-                return new OkObjectResult(response);
-            }
-
-            catch (Exception ex)
-            {
-                //return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
-                response.Code = StatusCodes.Status500InternalServerError;
-                response.Type = "Danger";
-                response.Message = ex.Message;
-
-                return new OkObjectResult(response);
-            }
-        }
-
-
-        [HttpPost("DeleteCategoria/{categoriaID}")]
-        public async Task<ActionResult> DeleteCategoria(int categoriaId)
-        {
-            var deleteRecord = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == categoriaId);
+            var deleteRecord = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == categoryId);
 
             if (deleteRecord == null)
-                return NotFound(new { message = $"No Existe clase <{categoriaId}> por listar" });
+                return NotFound(new { message = $"No Existe clase <{categoryId}> por listar" });
 
             var response = new MessageResponseDTO();
 
@@ -249,7 +249,7 @@ namespace _06_Inventory.Api.Controllers
                 await using var transaction = await _context.Database.BeginTransactionAsync();
                 string sql = "BEGIN CAPBorrarCategoria(:pCategoria, :pResult); END;";
 
-                OracleParameter pCategoria = new("pCategoria", categoriaId);
+                OracleParameter pCategoria = new("pCategoria", categoryId);
                 OracleParameter pResult = new("pResult", OracleDbType.Varchar2, System.Data.ParameterDirection.InputOutput) { Size = 4000 };
 
                 //await _context.Database.ExecuteSqlCommandAsync(sql, pCategoria, pResult);
@@ -260,7 +260,7 @@ namespace _06_Inventory.Api.Controllers
                     await transaction.CommitAsync();
                     response.Code = StatusCodes.Status200OK;
                     response.Type = "Success";
-                    response.Message = $"Las categoría {categoriaId} ha sido excluida";
+                    response.Message = $"Las categoría {categoryId} ha sido excluida";
                 }
                 else
                 {
@@ -282,16 +282,16 @@ namespace _06_Inventory.Api.Controllers
             }
         }
 
-        [HttpPost("ImportCategorias")]
-        public async Task<ActionResult> ImportCategorias([FromBody] IEnumerable<CategoriaDTO> categoriaDTOs)
+        [HttpPost("ImportCategories")]
+        public async Task<ActionResult> ImportCategories([FromBody] IEnumerable<CategoryDTO> CategoryDTOs)
         {
             MessageResponseDTO response = new();
-            if (categoriaDTOs is null)
+            if (CategoryDTOs is null)
                 return NotFound();
 
             try
             {
-                var addCategorias = from A in categoriaDTOs
+                var addCategorias = from A in CategoryDTOs
                                     select new CATEGORIA
                                     {
                                         CODIGO = A.Code,
@@ -323,9 +323,9 @@ namespace _06_Inventory.Api.Controllers
         }
 
 
-        private bool ExistCategoriaID(int categoriaId)
+        private bool ExistcategoryId(int categoryId)
         {
-            return _context.CATEGORIA.Any(x => x.CODIGO == categoriaId);
+            return _context.CATEGORIA.Any(x => x.CODIGO == categoryId);
         }
     }
 }

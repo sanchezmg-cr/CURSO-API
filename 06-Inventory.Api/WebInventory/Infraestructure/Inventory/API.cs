@@ -4,9 +4,9 @@
     {
         public static class Categoria
             {
-            public static string GetAllCategorias(string baseUri)
+            public static string GetAllCategories(string baseUri)
         {
-                return $"{baseUri}Categoria/GetAllCategorias";
+                return $"{baseUri}Categoria/GetAllCategories";
         }
     }
 }

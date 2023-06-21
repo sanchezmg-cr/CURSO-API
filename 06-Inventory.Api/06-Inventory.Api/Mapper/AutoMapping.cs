@@ -8,7 +8,7 @@ namespace _06_Inventory.Api.Mapper
     {
         public AutoMapping()
         {
-            CreateMap<ARTICULOS, ArticulosDTO>()
+            CreateMap<ARTICULOS, ItemsDTO>()
             .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.CODIGO))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.DESCRIPCION))
             .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.CATEGORIA))
@@ -21,7 +21,7 @@ namespace _06_Inventory.Api.Mapper
             .ForMember(dest => dest.UpdateUser, opt => opt.MapFrom(src => src.ULT_MODIF_USUARIO))
             .ReverseMap();
 
-            CreateMap<CATEGORIA, CategoriaDTO>()
+            CreateMap<CATEGORIA, CategoryDTO>()
             .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.CODIGO))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.DESCRIPCION))
             .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CREACION_TSTAMP))

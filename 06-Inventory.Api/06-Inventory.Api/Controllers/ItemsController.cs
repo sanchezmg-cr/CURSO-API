@@ -13,14 +13,14 @@ namespace _06_Inventory.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ArticulosController : ControllerBase
+    public class ItemsController : ControllerBase
     {
         private readonly NAFContext _context;
         private readonly IMapper _mapper;
         private readonly IStringLocalizer<Resources.SharedMessages> _sharedMessagesLocalizer;
 
 
-        public ArticulosController(NAFContext context, IMapper mapper, IStringLocalizer<Resources.SharedMessages> sharedMessagesLocalizer)
+        public ItemsController(NAFContext context, IMapper mapper, IStringLocalizer<Resources.SharedMessages> sharedMessagesLocalizer)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
@@ -29,8 +29,8 @@ namespace _06_Inventory.Api.Controllers
 
         }
 
-        [HttpGet("GetAllArticulos")]
-        public async Task<ActionResult> GetAllArticulos()
+        [HttpGet("GetAllItems")]
+        public async Task<ActionResult> GetAllItems()
         {
             MessageResponseDTO responseDTO = new();
             try
@@ -48,7 +48,7 @@ namespace _06_Inventory.Api.Controllers
                 //        return new OkObjectResult(responseDTO);
                 //    }
 
-                //    var articulos = _mapper.Map<List<ArticulosDTO>>(items);
+                //    var articulos = _mapper.Map<List<ItemsDTO>>(items);
 
                 //    //// opcion 1 poco eficiente
                 //    //foreach (var item in articulos)
@@ -60,7 +60,7 @@ namespace _06_Inventory.Api.Controllers
 
                 //    // forma 2 poco eficiente
                 //    var articulos = await (from item in _context.ARTICULOS
-                //                           select new ArticulosDTO
+                //                           select new ItemsDTO
                 //                           {
                 //                               Code = item.CODIGO,
                 //                               Description = item.DESCRIPCION,
@@ -83,7 +83,7 @@ namespace _06_Inventory.Api.Controllers
 
                 var articulos = await (from item in _context.ARTICULOS
                                        join cate in _context.CATEGORIA on item.CATEGORIA equals cate.CODIGO
-                                       select new ArticulosDTO
+                                       select new ItemsDTO
                                        {
                                            Code = item.CODIGO,
                                            Description = item.DESCRIPCION,
@@ -112,8 +112,8 @@ namespace _06_Inventory.Api.Controllers
 
         }
 
-        [HttpGet("GetArticulo/{articuloId}")]
-        public async Task<ActionResult> GetCategoria(int articuloId)
+        [HttpGet("GetItem/{articuloId}")]
+        public async Task<ActionResult> GetItem(int articuloId)
         {
             MessageResponseDTO responseDTO = new();
             try
@@ -123,7 +123,7 @@ namespace _06_Inventory.Api.Controllers
                                       join cate in _context.CATEGORIA
                                       on item.CATEGORIA equals cate.CODIGO
                                       where item.CODIGO == articuloId
-                                      select new ArticulosDTO
+                                      select new ItemsDTO
                                       {
                                           Code = item.CODIGO,
                                           Description = item.DESCRIPCION,
@@ -147,9 +147,9 @@ namespace _06_Inventory.Api.Controllers
                     //var dato3 = _sharedMessagesLocalizer.GetString("Ingreso").Value;
                     //var dato2 = _sharedMessagesLocalizer.GetString("Ingreso").ToString();
                     //var dato1 = _sharedMessagesLocalizer.GetString("Income", articuloId);
-                    //var dato0 = _sharedMessagesLocalizer.GetString("DeleteArticuloExito", $"{articuloId}");
+                    //var dato0 = _sharedMessagesLocalizer.GetString("DeleteItemExito", $"{articuloId}");
 
-                    //responseDTO.Message = _sharedMessagesLocalizer.GetString("DeleteArticuloExito", articuloId);
+                    //responseDTO.Message = _sharedMessagesLocalizer.GetString("DeleteItemExito", articuloId);
 
                     return new OkObjectResult(responseDTO);
                 }
@@ -168,14 +168,14 @@ namespace _06_Inventory.Api.Controllers
             }
         }
 
-        [HttpPut("SaveArticulo")]
-        public async Task<ActionResult<ARTICULOS>> SaveArticulo(ArticulosDTO articulosDTO)
+        [HttpPut("SaveItem")]
+        public async Task<ActionResult<ARTICULOS>> SaveItem(ItemsDTO ItemsDTO)
         {
             MessageResponseDTO responseDTO = new();
             try
             {
                 // AsNoTracking para no esperar 
-                var saveRecord = await _context.ARTICULOS.AsNoTracking().FirstOrDefaultAsync(x => x.CODIGO == articulosDTO.Code);
+                var saveRecord = await _context.ARTICULOS.AsNoTracking().FirstOrDefaultAsync(x => x.CODIGO == ItemsDTO.Code);
                 if (saveRecord == null)
                 {
                     //return NotFound();
@@ -184,15 +184,15 @@ namespace _06_Inventory.Api.Controllers
                     return new OkObjectResult(responseDTO);
                 }
 
-                var articulo = _mapper.Map<ARTICULOS>(articulosDTO);
+                var articulo = _mapper.Map<ARTICULOS>(ItemsDTO);
 
-                //saveRecord.DESCRIPCION = articulosDTO.Description;
-                //saveRecord.CATEGORIA = articulosDTO.Category;
-                //saveRecord.MARCA = articulosDTO.Brand;
-                //saveRecord.PESO = articulosDTO.Weight;
-                //saveRecord.CODIGO_BARRAS = articulosDTO.BarCode;
+                //saveRecord.DESCRIPCION = ItemsDTO.Description;
+                //saveRecord.CATEGORIA = ItemsDTO.Category;
+                //saveRecord.MARCA = ItemsDTO.Brand;
+                //saveRecord.PESO = ItemsDTO.Weight;
+                //saveRecord.CODIGO_BARRAS = ItemsDTO.BarCode;
                 //saveRecord.ULT_MODIF_TSTAMP = DateTime.Now;
-                //saveRecord.ULT_MODIF_USUARIO = articulosDTO.UpdateUser;
+                //saveRecord.ULT_MODIF_USUARIO = ItemsDTO.UpdateUser;
 
                 try
                 {
@@ -222,41 +222,41 @@ namespace _06_Inventory.Api.Controllers
             }
         }
 
-        [HttpPost("CreateArticulo")]
-        public async Task<ActionResult<ARTICULOS>> CreateArticulo(ArticulosDTO articulosDTO)
+        [HttpPost("CreateItem")]
+        public async Task<ActionResult<ARTICULOS>> CreateItem(ItemsDTO ItemsDTO)
         {
             MessageResponseDTO responseDTO = new();
-            if (articulosDTO == null)
+            if (ItemsDTO == null)
                 return NoContent();
 
-            var existCategoriaId = ExistArticuloID(articulosDTO.Code);
+            var existcategoryId = ExistItemID(ItemsDTO.Code);
 
-            if (existCategoriaId)
+            if (existcategoryId)
             {
-                return BadRequest(new { message = $"Artículo {articulosDTO.Code} ya éxiste" });
+                return BadRequest(new { message = $"Artículo {ItemsDTO.Code} ya éxiste" });
             }
 
 
-            //ARTICULOS createArticulo;
-            var createArticulo = _mapper.Map<ARTICULOS>(articulosDTO);
-            //createArticulo = new ARTICULOS
+            //ARTICULOS CreateItem;
+            var CreateItem = _mapper.Map<ARTICULOS>(ItemsDTO);
+            //CreateItem = new ARTICULOS
             //{
-            //    CODIGO = articulosDTO.Code,
-            //    DESCRIPCION = articulosDTO.Description,
-            //    CATEGORIA = articulosDTO.Category,
-            //    MARCA = articulosDTO.Brand,
-            //    PESO = articulosDTO.Weight,
-            //    CODIGO_BARRAS = articulosDTO.BarCode,
+            //    CODIGO = ItemsDTO.Code,
+            //    DESCRIPCION = ItemsDTO.Description,
+            //    CATEGORIA = ItemsDTO.Category,
+            //    MARCA = ItemsDTO.Brand,
+            //    PESO = ItemsDTO.Weight,
+            //    CODIGO_BARRAS = ItemsDTO.BarCode,
             //    ULT_MODIF_TSTAMP = DateTime.Now,
-            //    ULT_MODIF_USUARIO = articulosDTO.UpdateUser
+            //    ULT_MODIF_USUARIO = ItemsDTO.UpdateUser
             //};
 
             try
             {
-                await _context.ARTICULOS.AddRangeAsync(createArticulo);
+                await _context.ARTICULOS.AddRangeAsync(CreateItem);
                 await _context.SaveChangesAsync();
 
-                return Ok(createArticulo);
+                return Ok(CreateItem);
             }
             catch (Exception ex)
             {
@@ -269,8 +269,8 @@ namespace _06_Inventory.Api.Controllers
             }
         }
 
-        [HttpPost("DeleteArticulo/{ArticuloID}")]
-        public async Task<ActionResult> DeleteArticulo(int articuloId)
+        [HttpPost("DeleteItem/{ArticuloID}")]
+        public async Task<ActionResult> DeleteItem(int articuloId)
         {
             var deleteRecord = await _context.ARTICULOS.FirstOrDefaultAsync(x => x.CODIGO == articuloId);
 
@@ -297,9 +297,9 @@ namespace _06_Inventory.Api.Controllers
                     response.Code = StatusCodes.Status200OK;
                     response.Type = "Success";
                     response.Message = $"El artículo {articuloId} ha sido excluido";
-                    response.Message = _sharedMessagesLocalizer.GetString("DeleteArticuloExitoso");
+                    response.Message = _sharedMessagesLocalizer.GetString("DeleteItemExitoso");
 
-                    response.Message = _sharedMessagesLocalizer.GetString("DeleteArticuloExitoso", pResult.Value.ToString()) + $"{articuloId}";
+                    response.Message = _sharedMessagesLocalizer.GetString("DeleteItemExitoso", pResult.Value.ToString()) + $"{articuloId}";
                 }
                 else
                 {
@@ -322,16 +322,16 @@ namespace _06_Inventory.Api.Controllers
         }
 
 
-        [HttpPost("ImportArticulos")]
-        public async Task<ActionResult> ImportArticulos([FromBody] IEnumerable<ArticulosDTO> articulosDTOs)
+        [HttpPost("ImportItems")]
+        public async Task<ActionResult> ImportItems([FromBody] IEnumerable<ItemsDTO> ItemsDTOs)
         {
-            if (articulosDTOs is null)
+            if (ItemsDTOs is null)
             {
                 return NotFound();
             }
             else
             {
-                var addArticulos = from A in articulosDTOs
+                var addArticulos = from A in ItemsDTOs
                                    select new ARTICULOS
                                    {
                                        CODIGO = A.Code,
@@ -357,7 +357,7 @@ namespace _06_Inventory.Api.Controllers
             }
         }
 
-        private bool ExistArticuloID(long articuloId)
+        private bool ExistItemID(long articuloId)
         {
             return _context.ARTICULOS.Any(x => x.CODIGO == articuloId);
         }

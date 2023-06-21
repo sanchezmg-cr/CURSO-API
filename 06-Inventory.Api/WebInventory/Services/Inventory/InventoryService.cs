@@ -15,9 +15,9 @@ namespace WebInventory.Services.Inventory
             _settings = settings;
             _remoteServiceBaseUrl = $"{settings.Value.InventoryAPIEndpoint}";            
         }
-        public async Task<string> GetAllCategorias()
+        public async Task<string> GetAllCategories()
         {
-            var uri = Infraestructure.Inventory.API.Categoria.GetAllCategorias(_remoteServiceBaseUrl);
+            var uri = Infraestructure.Inventory.API.Categoria.GetAllCategories(_remoteServiceBaseUrl);
             var httpResponse = await _httpClient.GetAsync( uri );
 
             return await httpResponse.Content.ReadAsStringAsync();
