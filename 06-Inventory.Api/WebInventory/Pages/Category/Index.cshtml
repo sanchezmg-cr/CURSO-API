@@ -10,7 +10,7 @@
     </div>
 
     <div>
-        <form id="forms" asp-page="./Index" method="post">
+        <form id="form" asp-page="./Index" method="post">
             <input asp-for="ActionType" type="hidden" id="actionTypeHidden"/>
             <input asp-for="ActionData" type="hidden" id="actionDatahidden"/>
             <div id="categoriesGrid"></div>
@@ -55,16 +55,10 @@
                         dataField: "code",
                         caption: "Codigo",
                         width: 150,
-
-
-
                     },
                     {
                         dataField: "description",
                         caption: "Descripción",
-
-
-
                     },
                 ],
                 selection: {
@@ -97,9 +91,15 @@
                 },
             };
 
-
-
             $("#categoriesGrid").dxDataGrid(dataOptions);
+        }
+
+        function SubmitForm(action, data)
+        {
+            $("#actionTypeHidden").val(action);
+            $("#actionDatahidden").val(data);
+
+            $("form").submit();
         }
     </script>
 }

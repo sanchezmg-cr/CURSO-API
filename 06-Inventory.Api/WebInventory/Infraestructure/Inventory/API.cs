@@ -3,11 +3,26 @@
     public class API
     {
         public static class Categoria
-            {
-            public static string GetAllCategories(string baseUri)
         {
+            public static string GetAllCategories(string baseUri)
+            {
                 return $"{baseUri}Categories/GetAllCategories";
+            }
+
+            public static string CreateCategory(string baseUri)
+            {
+                return $"{baseUri}Categories/CreateCategory";
+            }
+
+            public static string SaveCategory(string baseUri)
+            {
+                return $"{baseUri}Categories/SaveCategory";
+            }
+
+            public static string DeleteCategory(string baseUri, int categoryId)
+            {
+                return $"{baseUri}Categories/DeleteCategory/{categoryId}";
+            }
         }
     }
-}
 }
