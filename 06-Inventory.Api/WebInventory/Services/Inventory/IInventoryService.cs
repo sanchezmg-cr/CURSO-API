@@ -12,9 +12,8 @@ namespace WebInventory.Services.Inventory
         #endregion
 
 
-
         #region Articulos
-
+        Task<string> GetAllItems();
         #endregion
 
     }

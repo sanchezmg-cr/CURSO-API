@@ -3,4 +3,241 @@
 @{
 }
 
-<h2>Articulos</h2>
+<!-- begin:: Subheader -->
+<div class="kt-subheader   kt-grid__item" id="kt_subheader">
+    <div class="kt-container  kt-container--fluid ">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                @Model.SharedLabelsLocalizer["Maintenances"]
+            </h3>
+            <span class="kt-subheader__separator kt-hidden"></span>
+            <div class="kt-subheader__breadcrumbs">
+                <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                <span class="kt-subheader__breadcrumbs-separator"></span>
+                <a href="" class="kt-subheader__breadcrumbs-link">
+                    @Model.SharedLabelsLocalizer["Forms"]
+                </a>
+            </div>
+        </div>
+
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+    <!-- begin:: Content -->
+    <div class="kt-portlet kt-portlet--mobile kt-portlet--height-fluid">
+        <!--begin::Portlet-->
+        <!--begin::Head-->
+        <div class="kt-portlet__head">
+            <div class="kt-portlet__head-label">
+                <h3 class="kt-portlet__head-title">
+                    @Model.SharedLabelsLocalizer["Forms"]
+                </h3>
+            </div>
+            <div class="kt-portlet__head-toolbar">
+                <div class="kt-portlet__head-actions">
+@*                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.View))*@
+                    
+                        <div class="btn-container-tooltip">
+                            <a id="detailsButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Details" asp-route-form="form" asp-route-companyId="companyId" data-dynamic-parameters="form,companyId"><i class="fa fa-eye"></i></a>
+                            <div id="detailsButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DetailsButton"]</h6></div>
+                        </div>
+                    
+@*                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Add))*@
+                    
+                        <div class="btn-container-tooltip">
+                            <a id="addButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Create"><i class="fa fa-plus"></i></a>
+                            <div id="addButtonTooltip"><h6>@Model.SharedLabelsLocalizer["AddButton"]</h6></div>
+                        </div>
+                    
+@*                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Edit))*@
+                    
+                        <div class="btn-container-tooltip">
+                            <a id="editButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Edit" asp-route-form="form" asp-route-companyId="companyId" data-dynamic-parameters="form,companyId" data-original-title="Editar"><i class="fa fa-edit"></i></a>
+                            <div id="editButtonTooltip"><h6>@Model.SharedLabelsLocalizer["EditButton"]</h6></div>
+                        </div>
+                    
+@*                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Delete))*@
+                    
+                        <div class="btn-container-tooltip">
+                            <a id="deleteButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Delete" asp-route-form="form" asp-route-companyId="companyId" data-dynamic-parameters="form,companyId" data-original-title="Eliminar"><i class="fa fa-trash"></i></a>
+                            <div id="deleteButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DeleteButton"]</h6></div>
+                        </div>
+                    
+
+                    <div class="dropdown dropdown-inline">
+                        <button id="optionsButton" type="button" class="btn btn-mnt-circle btn-elevate btn-circle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dat-placement="top" title="@Model.SharedLabelsLocalizer["OptionsGridButton"]" data-original-title="@Model.SharedLabelsLocalizer["OptionsGridButton"]">
+                            <i class="fa fa-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-xs dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="">
+                            <!--begin::Nav-->
+                            <ul class="kt-nav">
+                                <li class="kt-nav__head">
+                                    @Model.SharedLabelsLocalizer["OptionsGridButton"]:
+                                </li>
+                                <li class="kt-nav__separator"></li>
+                                <li class="kt-nav__item">
+                                    <a class="kt-nav__link" onclick="AddFilterRow('mainGridContainer')">
+                                        <i class="kt-nav__link-icon fa fa-filter"></i>
+                                        <span class="kt-nav__link-text">@Model.SharedLabelsLocalizer["FilterButton"]</span>
+                                    </a>
+                                </li>
+                                <li class="kt-nav__item">
+                                    <a class="kt-nav__link" onclick="AddSearchInput('mainGridContainer')">
+                                        <i class="kt-nav__link-icon fa fa-search"></i>
+                                        <span class="kt-nav__link-text">@Model.SharedLabelsLocalizer["SearchButton"]</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <!--end::Nav-->
+                        </div>
+                        <div id="optionsButtonTooltip"><h6>@Model.SharedLabelsLocalizer["OptionsGridButton"]</h6></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::head-->
+        <div class="kt-portlet__body">
+            <div id="mainGridContainer"></div>
+        </div>
+        <!--end::Portlet-->
+    </div>
+</div>
+<!-- end:: Content -->
+<!--begin::JS Code-->
+@section Scripts{
+    <script>
+
+        LoadControls();
+        function LoadControls() {
+
+            var gridDataSource = ParseDataSourceToJson(@Html.Raw(Model.DataSource));
+
+            var dataOptions = {
+                dataSource: gridDataSource,
+                keyExpr: "code",
+                showBorders: true,
+                paging: {
+                    enabled: true,
+                    pageSize: 10
+                },
+                searchPanel: {
+                    visible: true,
+                    width: 277,
+                    placeholder: "Buscar"
+                },
+                editing: {
+                    mode: "row",
+                    allowUpdating: true,
+                    allowDeleting: true,
+                    allowAdding: true,
+                    texts: {
+                        confirmDeleteMessage: "¿Está seguro de que desea eliminar este registro?",
+                        yes: "Si",
+                    }
+                },
+                rowAlternationEnabled: true,
+                showBorders: true,
+                columns: [
+                    {
+                        dataField: "code",
+                        caption: "Codigo",
+                        width: 150,
+                    },
+                    {
+                        dataField: "description",
+                        caption: "Descripción",
+                    },
+                ],
+                selection: {
+                    mode: "single"
+                },
+                onRowUpdating: function (e) {
+                    let data = null
+                    if (e.oldData && e.newData) {
+                        data = $.extend(e.oldData, e.newData);
+                        SubmitForm("Edit", JSON.stringify(data));
+                    }
+                },
+                onRowRemoving: function (e) {
+                    let rowKey = e.key;
+                    if (rowKey) {
+                        SubmitForm("Delete", rowKey);
+                    }
+                },
+                onRowInserting: function (e) {
+                    let data = e.data;
+                    if (data) {
+                        SubmitForm("Create", JSON.stringify(data));
+                    }
+                },
+                onInitNewRow: function (e) {
+                    e.component.columnOption("code", "allowEditing", true);
+                },
+                onEditingStart: function (e) {
+                    e.component.columnOption("code", "allowEditing", false);
+                },
+            };
+
+            $("#mainGridContainer").dxDataGrid(dataOptions);
+
+        }
+
+        function GetGridBasicFormatOptions(dynamicParametersLinksParent, customSelectionChanged) {
+            return {
+                selection: {
+                    mode: "single"
+                },
+                hoverStateEnabled: true,
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                searchPanel: {
+                    visible: false,
+                    width: 240,
+                    placeholder: "Buscar..."
+                },
+                headerFilter: {
+                    visible: true
+                },
+                scrolling: {
+                    showScrollbar: "onHover",
+                    scrollByContent: true,
+                    scrollByThumb: true
+                },
+                onSelectionChanged: function (selectedItems) {
+                    var data = selectedItems.selectedRowsData[0];
+                    var actions;
+                    //debugger;
+                    if (data) {
+                        //Si se especifica un parent para el bloque de links a actualizar dinámicamente, entonces se utiliza, de lo contrario se cambian todos los links de la página.
+                        if (dynamicParametersLinksParent == null) {
+                            actions = $("a[data-dynamic-parameters]");
+                        }
+                        else
+                            actions = $("#" + dynamicParametersLinksParent).find("a[data-dynamic-parameters]");
+                        UpdateDynamicUrlActions(actions, "href", data);
+
+                        //Si se especifica un parent para el bloque de buttons a actualizar dinámicamente, entonces se utiliza, de lo contrario se cambian todos los buttons de la página.
+                        if (dynamicParametersLinksParent == null) {
+                            actions = $("a[data-dynamic-parameters]");
+                        }
+                        else
+                            actions = $("#" + dynamicParametersLinksParent).find("a[data-dynamic-parameters]");
+                        UpdateDynamicUrlActions(actions, "panelContentPageUrl", data);
+                    }
+                    //Funcion custom que puede ser implementada en la página que sea requerido
+                    if (typeof customSelectionChanged == 'function')
+                        customSelectionChanged(selectedItems);
+                }
+            };
+        }
+    </script>
+}
+<!--end::JS Code-->

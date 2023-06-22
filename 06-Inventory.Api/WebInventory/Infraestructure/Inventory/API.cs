@@ -24,5 +24,13 @@
                 return $"{baseUri}Categories/DeleteCategory/{categoryId}";
             }
         }
+
+        public static class Items 
+        {
+            public static string GetAllItems(string baseUri)
+            {
+                return $"{baseUri}Items/GetAllItems";
+            }        
+        }
     }
 }

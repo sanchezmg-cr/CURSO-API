@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "06-Inventory.Api", "06-Inventory.Api\06-Inventory.Api.csproj", "{44E240BC-A174-461F-B602-17FF7516ED5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebInventory", "WebInventory\WebInventory.csproj", "{2B51A94D-7DF9-48D4-964E-1876F68D819E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebInventory", "WebInventory\WebInventory.csproj", "{2B51A94D-7DF9-48D4-964E-1876F68D819E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
