@@ -43,6 +43,8 @@ namespace WebInventory.Services.Inventory
             var httpResponse = await _httpClient.PostAsync(uri, null);
         }
 
+
+
         public async Task<string> GetAllItems()
         {
             var uri = Infraestructure.Inventory.API.Items.GetAllItems(_remoteServiceBaseUrl);

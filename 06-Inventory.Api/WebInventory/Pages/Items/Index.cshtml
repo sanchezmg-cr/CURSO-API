@@ -1,6 +1,7 @@
 ﻿@page
 @model WebInventory.Pages.Items.IndexModel
 @{
+    ViewData["Title"] = Model.SharedLabelsLocalizer["Forms"];
 }
 
 <!-- begin:: Subheader -->
@@ -15,7 +16,7 @@
                 <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
                 <span class="kt-subheader__breadcrumbs-separator"></span>
                 <a href="" class="kt-subheader__breadcrumbs-link">
-                    @Model.SharedLabelsLocalizer["Forms"]
+                    @Model.SharedLabelsLocalizer["Items"]
                 </a>
             </div>
         </div>
@@ -40,35 +41,35 @@
             </div>
             <div class="kt-portlet__head-toolbar">
                 <div class="kt-portlet__head-actions">
-@*                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.View))*@
-                    
-                        <div class="btn-container-tooltip">
+@*                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.View))
+                    {
+*@                        <div class="btn-container-tooltip">
                             <a id="detailsButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Details" asp-route-form="form" asp-route-companyId="companyId" data-dynamic-parameters="form,companyId"><i class="fa fa-eye"></i></a>
                             <div id="detailsButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DetailsButton"]</h6></div>
                         </div>
-                    
-@*                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Add))*@
-                    
-                        <div class="btn-container-tooltip">
-                            <a id="addButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Create"><i class="fa fa-plus"></i></a>
+  @*                  }
+                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Add))
+                    {
+  *@                      <div class="btn-container-tooltip">
+                        <a id="addButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Create"><i class="fa fa-plus"></i></a>
                             <div id="addButtonTooltip"><h6>@Model.SharedLabelsLocalizer["AddButton"]</h6></div>
                         </div>
-                    
-@*                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Edit))*@
-                    
-                        <div class="btn-container-tooltip">
+    @*                }
+                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Edit))
+                    {
+    *@                    <div class="btn-container-tooltip">
                             <a id="editButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Edit" asp-route-form="form" asp-route-companyId="companyId" data-dynamic-parameters="form,companyId" data-original-title="Editar"><i class="fa fa-edit"></i></a>
                             <div id="editButtonTooltip"><h6>@Model.SharedLabelsLocalizer["EditButton"]</h6></div>
                         </div>
-                    
-@*                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Delete))*@
-                    
-                        <div class="btn-container-tooltip">
+      @*              }
+                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Delete))
+                    {
+      *@                  <div class="btn-container-tooltip">
                             <a id="deleteButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Delete" asp-route-form="form" asp-route-companyId="companyId" data-dynamic-parameters="form,companyId" data-original-title="Eliminar"><i class="fa fa-trash"></i></a>
                             <div id="deleteButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DeleteButton"]</h6></div>
                         </div>
-                    
-
+@*                    }
+*@
                     <div class="dropdown dropdown-inline">
                         <button id="optionsButton" type="button" class="btn btn-mnt-circle btn-elevate btn-circle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dat-placement="top" title="@Model.SharedLabelsLocalizer["OptionsGridButton"]" data-original-title="@Model.SharedLabelsLocalizer["OptionsGridButton"]">
                             <i class="fa fa-ellipsis-v"></i>
@@ -102,47 +103,26 @@
             </div>
         </div>
         <!--end::head-->
+
         <div class="kt-portlet__body">
-            <div id="mainGridContainer"></div>
+            <div id="categoriesGrid"></div>
         </div>
         <!--end::Portlet-->
     </div>
 </div>
 <!-- end:: Content -->
-<!--begin::JS Code-->
+
+
+<!--inicio::JS Code-->
 @section Scripts{
     <script>
-
         LoadControls();
-        function LoadControls() {
 
-            var gridDataSource = ParseDataSourceToJson(@Html.Raw(Model.DataSource));
+        function LoadControls() {
+            var dataSource = ParseDataSourceToJson(@Html.Raw(Model.DataSource));
 
             var dataOptions = {
-                dataSource: gridDataSource,
-                keyExpr: "code",
-                showBorders: true,
-                paging: {
-                    enabled: true,
-                    pageSize: 10
-                },
-                searchPanel: {
-                    visible: true,
-                    width: 277,
-                    placeholder: "Buscar"
-                },
-                editing: {
-                    mode: "row",
-                    allowUpdating: true,
-                    allowDeleting: true,
-                    allowAdding: true,
-                    texts: {
-                        confirmDeleteMessage: "¿Está seguro de que desea eliminar este registro?",
-                        yes: "Si",
-                    }
-                },
-                rowAlternationEnabled: true,
-                showBorders: true,
+                dataSource: dataSource,
                 columns: [
                     {
                         dataField: "code",
@@ -153,90 +133,54 @@
                         dataField: "description",
                         caption: "Descripción",
                     },
-                ],
-                selection: {
-                    mode: "single"
-                },
-                onRowUpdating: function (e) {
-                    let data = null
-                    if (e.oldData && e.newData) {
-                        data = $.extend(e.oldData, e.newData);
-                        SubmitForm("Edit", JSON.stringify(data));
-                    }
-                },
-                onRowRemoving: function (e) {
-                    let rowKey = e.key;
-                    if (rowKey) {
-                        SubmitForm("Delete", rowKey);
-                    }
-                },
-                onRowInserting: function (e) {
-                    let data = e.data;
-                    if (data) {
-                        SubmitForm("Create", JSON.stringify(data));
-                    }
-                },
-                onInitNewRow: function (e) {
-                    e.component.columnOption("code", "allowEditing", true);
-                },
-                onEditingStart: function (e) {
-                    e.component.columnOption("code", "allowEditing", false);
-                },
+                ]
             };
 
-            $("#mainGridContainer").dxDataGrid(dataOptions);
+            $("#categoriesGridd").dxDataGrid($.extend(dataOptions, GetGridBasicFormatOptions()));
 
+            $("#detailsButtonTooltip").dxTooltip({
+                target: "#detailsButton",
+                showEvent: "mouseenter",
+                hideEvent: "mouseleave",
+                position: "top",
+                closeOnOutsideClick: false
+            });
+            $("#addButtonTooltip").dxTooltip({
+                target: "#addButton",
+                showEvent: "mouseenter",
+                hideEvent: "mouseleave",
+                position: "top",
+                closeOnOutsideClick: false
+            });
+            $("#editButtonTooltip").dxTooltip({
+                target: "#editButton",
+                showEvent: "mouseenter",
+                hideEvent: "mouseleave",
+                position: "top",
+                closeOnOutsideClick: false
+            });
+            $("#deleteButtonTooltip").dxTooltip({
+                target: "#deleteButton",
+                showEvent: "mouseenter",
+                hideEvent: "mouseleave",
+                position: "top",
+                closeOnOutsideClick: false
+            });
+            $("#optionsButtonTooltip").dxTooltip({
+                target: "#optionsButton",
+                showEvent: "mouseenter",
+                hideEvent: "mouseleave",
+                position: "top",
+                closeOnOutsideClick: false
+            });
         }
 
-        function GetGridBasicFormatOptions(dynamicParametersLinksParent, customSelectionChanged) {
-            return {
-                selection: {
-                    mode: "single"
-                },
-                hoverStateEnabled: true,
-                filterRow: {
-                    visible: true,
-                    applyFilter: "auto"
-                },
-                searchPanel: {
-                    visible: false,
-                    width: 240,
-                    placeholder: "Buscar..."
-                },
-                headerFilter: {
-                    visible: true
-                },
-                scrolling: {
-                    showScrollbar: "onHover",
-                    scrollByContent: true,
-                    scrollByThumb: true
-                },
-                onSelectionChanged: function (selectedItems) {
-                    var data = selectedItems.selectedRowsData[0];
-                    var actions;
-                    //debugger;
-                    if (data) {
-                        //Si se especifica un parent para el bloque de links a actualizar dinámicamente, entonces se utiliza, de lo contrario se cambian todos los links de la página.
-                        if (dynamicParametersLinksParent == null) {
-                            actions = $("a[data-dynamic-parameters]");
-                        }
-                        else
-                            actions = $("#" + dynamicParametersLinksParent).find("a[data-dynamic-parameters]");
-                        UpdateDynamicUrlActions(actions, "href", data);
+        function SubmitForm(action, data) 
+        {
+            $("#actionTypeHidden").val(action);
+            $("#actionDatahidden").val(data);
 
-                        //Si se especifica un parent para el bloque de buttons a actualizar dinámicamente, entonces se utiliza, de lo contrario se cambian todos los buttons de la página.
-                        if (dynamicParametersLinksParent == null) {
-                            actions = $("a[data-dynamic-parameters]");
-                        }
-                        else
-                            actions = $("#" + dynamicParametersLinksParent).find("a[data-dynamic-parameters]");
-                        UpdateDynamicUrlActions(actions, "panelContentPageUrl", data);
-                    }
-                    //Funcion custom que puede ser implementada en la página que sea requerido
-                    if (typeof customSelectionChanged == 'function')
-                        customSelectionChanged(selectedItems);
-                }
-            };
+            $("form").submit();
         }
     </script>
 }

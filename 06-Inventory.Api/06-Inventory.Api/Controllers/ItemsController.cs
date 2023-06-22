@@ -35,46 +35,6 @@ namespace _06_Inventory.Api.Controllers
             MessageResponseDTO responseDTO = new();
             try
             {
-                //{
-                //    var items = await _context.ARTICULOS.OrderBy(x => x.CODIGO).ToListAsync();
-
-
-                //    if (!items.Any())
-                //    {
-                //        //return NotFound();
-                //        //return NotFound(new { message = "No Existen Articulos por listar" });
-                //        responseDTO.Type = "Danger";
-                //        responseDTO.Message = "No éxisten artículos por listar";
-                //        return new OkObjectResult(responseDTO);
-                //    }
-
-                //    var articulos = _mapper.Map<List<ItemsDTO>>(items);
-
-                //    //// opcion 1 poco eficiente
-                //    //foreach (var item in articulos)
-                //    //{
-                //    //    var category = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == item.Category);
-                //    //    item.CategoryDescription = category.DESCRIPCION;
-                //    //}
-
-
-                //    // forma 2 poco eficiente
-                //    var articulos = await (from item in _context.ARTICULOS
-                //                           select new ItemsDTO
-                //                           {
-                //                               Code = item.CODIGO,
-                //                               Description = item.DESCRIPCION,
-                //                               Category = item.CATEGORIA,
-                //                               CategoryDescription = _context.CATEGORIA.FirstOrDefault(x => x.CODIGO == item.CATEGORIA).DESCRIPCION,
-                //                               Brand = item.MARCA,
-                //                               Weight = item.PESO,
-                //                               BarCode = item.CODIGO_BARRAS,
-                //                               CreateDate = item.CREACION_TSTAMP,
-                //                               CreateUser = item.CREACION_USUARIO,
-                //                               UpdateDate = item.ULT_MODIF_TSTAMP,
-                //                               UpdateUser = item.ULT_MODIF_USUARIO
-                //                           }).ToListAsync();
-                //}
                 var dato4 = _sharedMessagesLocalizer.GetString("Deduction", "Deduction").Value;
                 var dato3 = _sharedMessagesLocalizer.GetString("Ingreso").Value;
                 var dato2 = _sharedMessagesLocalizer.GetString("Ingreso").ToString();

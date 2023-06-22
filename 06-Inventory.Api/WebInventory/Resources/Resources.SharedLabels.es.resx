@@ -117,13 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Deduction" xml:space="preserve">
-    <value>Deducción</value>
+  <data name="Items" xml:space="preserve">
+    <value>Articulos</value>
   </data>
-  <data name="Income" xml:space="preserve">
-    <value>INGRESO</value>
-  </data>
-  <data name="Ingreso" xml:space="preserve">
-    <value>INGRESO</value>
+  <data name="Maintenances" xml:space="preserve">
+    <value>Mantenimientos</value>
   </data>
 </root>

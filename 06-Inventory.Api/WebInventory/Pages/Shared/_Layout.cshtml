@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Configuration
+@using System.Security.Claims;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="">
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebInventory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebInventory.styles.css" asp-append-version="true" />
@@ -11,6 +17,9 @@
     <!-- DevExtreme themes -->
     <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.common.css">
     <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.material.blue.light.compact.css">
+
+
+
 </head>
 <body>
     <header>
