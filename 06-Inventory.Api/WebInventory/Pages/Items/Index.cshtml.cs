@@ -12,14 +12,28 @@ namespace WebInventory.Pages.Items
 {
     public class IndexModel : PageModel
     {
+        private readonly IHtmlLocalizer<Resources.SharedMessages> _sharedMessagesLocalizer;
+        private readonly IHtmlLocalizer<Resources.SharedValidationMessages> _sharedValidationMessagesLocalizer;
+        public IHtmlLocalizer<IndexModel> Localizer { get; private set; }
+        private readonly IOptions<SettingsValue> _settings;
+
         private readonly IInventoryService _inventoryService;
-        public IHtmlLocalizer<Resources.SharedLabels> _sharedLabels { get; set; }
+        public IHtmlLocalizer<Resources.SharedLabels> SharedLabelsLocalizer { get; set; }
 
 
-        public IndexModel(IInventoryService inventoryService, IHtmlLocalizer<Resources.SharedLabels> sharedLabels)
+        public IndexModel(IHtmlLocalizer<Resources.SharedMessages> sharedMessagesLocalizer,
+                          IHtmlLocalizer<Resources.SharedValidationMessages> sharedValidationMessagesLocalizer,
+                          IHtmlLocalizer<IndexModel> localizer,
+                          IInventoryService inventoryService,
+                          IOptions<SettingsValue> settings,
+                          IHtmlLocalizer<Resources.SharedLabels> sharedLabelsLocalizer)
         {
+            _sharedMessagesLocalizer = sharedMessagesLocalizer;
+            _sharedValidationMessagesLocalizer = sharedValidationMessagesLocalizer;
+            Localizer = localizer;
+            _settings = settings;
             _inventoryService = inventoryService;
-            _sharedLabels = sharedLabels;
+            SharedLabelsLocalizer = sharedLabelsLocalizer;
         }
 
         public string DataSource { get; set; }

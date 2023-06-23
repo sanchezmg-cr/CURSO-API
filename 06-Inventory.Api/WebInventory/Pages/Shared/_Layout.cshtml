@@ -2,25 +2,49 @@
 @using Microsoft.Extensions.Configuration
 @using System.Security.Claims;
 
+@inject IViewLocalizer _localizer
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <base href="">
     <meta charset="utf-8" />
-    <title>@ViewData["Title"] - WebInventory</title>
+    @*<title>@ViewData["Title"] - WebInventory</title>*@
+    <title>@_localizer["Title"] | @_localizer["PageTitle"] - @_localizer["General"]</title>
+    <meta name="description" content="Latest updates and statistic charts">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebInventory.styles.css" asp-append-version="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!--begin::Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">
+    <!--end::Fonts -->
+
+    <!--begin::Page Vendors Styles(used by this page) -->
+    <link href="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+    <!--end::Page Vendors Styles -->
+
+    <!--begin::Global Theme Styles(used by all pages) -->
+    <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <!--end::Global Theme Styles -->
 
     <!-- DevExtreme themes -->
     <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.common.css">
     <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.material.blue.light.compact.css">
 
+    @*Importaciones de stilos custom*@
+    <link href="~/assets/css/custom.css" rel="stylesheet" />
 
+    <link rel="shortcut icon" href="~/assets/media/logos/favicon.ico" />
 
+    @*<link href="https://panel.chatcompose.com/static/global/export/css\main.af14124f.css" rel="stylesheet">
+    <script async type="text/javascript" src="https://panel.chatcompose.com/static/global/export/js\main.82da0a06.js" user="juanjo0889"></script>*@
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebInventory.styles.css" asp-append-version="true" />
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
