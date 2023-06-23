@@ -14,6 +14,26 @@
             <label>Descripcion</label>
             <div id="Description"></div>
         </div>
+        <div class="col-lg-3">
+            <label>Categoria</label>
+            <div id="Category"></div>
+        </div>
+        <div class="col-lg-3">
+            <label>Descripción Category</label>
+            <div id="CategoryDescription"></div>
+        </div>
+        <div class="col-lg-3">
+            <label>Brand</label>
+            <div id="Brand"></div>
+        </div>
+        <div class="col-lg-3">
+            <label>Weight</label>
+            <div id="Weight"></div>
+        </div>
+        <div class="col-lg-3">
+            <label>Codigo Barra</label>
+            <div id="BarCode"></div>
+        </div>
     </div>
 
 
@@ -33,6 +53,31 @@
         $("#Description").dxTextBox({
             name: "Item.Description",
             value: model.Description,
+            readOnly: true
+        });
+        $("#Category").dxTextBox({
+            name: "Item.Category",
+            value: model.Category,
+            readOnly: true
+        });
+        $("#CategoryDescription").dxTextBox({
+            name: "Item.CategoryDescription",
+            value: model.CategoryDescription,
+            readOnly: true
+        });
+        $("#Brand").dxTextBox({
+            name: "Item.Brand",
+            value: model.Brand,
+            readOnly: true
+        });
+        $("#Weight").dxTextBox({
+            name: "Item.Weight",
+            value: model.Weight,
+            readOnly: true
+        });
+        $("#BarCode").dxTextBox({
+            name: "Item.BarCode",
+            value: model.BarCode,
             readOnly: true
         });
     }
