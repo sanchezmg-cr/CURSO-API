@@ -20,11 +20,11 @@ namespace _06_Inventory.Api.Controllers
         private readonly ILogger<CategoriesController> _logger;
 
         private readonly IStringLocalizer<Resources.SharedMessages> _sharedMessagesLocalizer;
-        
+
         public CategoriesController(NAFContext context,
             IMapper mapper,
             ILogger<CategoriesController> logger
-                                 ,IStringLocalizer<Resources.SharedMessages> sharedMessagesLocalizer)
+                                 , IStringLocalizer<Resources.SharedMessages> sharedMessagesLocalizer)
         {
             _context = context;
             _mapper = mapper;
@@ -39,7 +39,7 @@ namespace _06_Inventory.Api.Controllers
         [HttpGet("GetAllCategories")]
         public async Task<ActionResult> GetAllCategories()
         {
-            var responsetype = new MessagesResponseTypes("Info","Johan");
+            var responsetype = new MessagesResponseTypes("Info", "Johan");
 
             string resultado = responsetype.ToString();
 
@@ -234,7 +234,7 @@ namespace _06_Inventory.Api.Controllers
         //}
 
 
-        [HttpPost("DeleteCategory/{categoryId}")]
+        [HttpDelete("DeleteCategory/{categoryId}")]
         public async Task<ActionResult> DeleteCategory(int categoryId)
         {
             var deleteRecord = await _context.CATEGORIA.FirstOrDefaultAsync(x => x.CODIGO == categoryId);
@@ -303,7 +303,7 @@ namespace _06_Inventory.Api.Controllers
 
                 await _context.CATEGORIA.AddRangeAsync(addCategorias.ToList());
                 await _context.SaveChangesAsync();
-                
+
                 //return Ok();
                 response.Code = StatusCodes.Status200OK;
                 response.Type = "Success";

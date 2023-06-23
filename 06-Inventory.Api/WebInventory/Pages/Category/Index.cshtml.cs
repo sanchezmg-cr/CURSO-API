@@ -14,6 +14,7 @@ namespace WebInventory.Pages.Category
         private readonly IInventoryService _inventoryService;
         public IHtmlLocalizer<Resources.SharedLabels> _sharedLabels { get; set; }
 
+
         public IndexModel(IInventoryService inventoryService, IHtmlLocalizer<Resources.SharedLabels> sharedLabels)
         {
             _inventoryService = inventoryService;

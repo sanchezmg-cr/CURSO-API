@@ -25,12 +25,32 @@
             }
         }
 
-        public static class Items 
+        public static class Items
         {
             public static string GetAllItems(string baseUri)
             {
                 return $"{baseUri}Items/GetAllItems";
-            }        
+            }
+
+            public static string GetItem(string baseUri, int code)
+            {
+                return $"{baseUri}Items/GetItem/{code}";
+            }
+
+            public static string CreateItem(string baseUri)
+            {
+                return $"{baseUri}Items/CreateItem";
+            }
+
+            public static string SaveItem(string baseUri)
+            {
+                return $"{baseUri}Items/SaveItem";
+            }
+
+            public static string DeleteItem(string baseUri, int code)
+            {
+                return $"{baseUri}Itemss/DeleteItem/{code}";
+            }
         }
     }
 }

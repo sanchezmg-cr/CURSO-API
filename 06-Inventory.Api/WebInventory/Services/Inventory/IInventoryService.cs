@@ -1,4 +1,5 @@
 ﻿using WebInventory.Services.DTO;
+using WebInventory.ViewModels;
 
 namespace WebInventory.Services.Inventory
 {
@@ -14,7 +15,11 @@ namespace WebInventory.Services.Inventory
 
         #region Articulos
         Task<string> GetAllItems();
-        #endregion
+        Task<Item> GetItem(int code);
+        Task CreateItem(ItemsDTO category);
+        Task SaveItem(ItemsDTO category);
 
+        Task<MessageResponseDTO> DeleteItem(int code);
+        #endregion
     }
 }

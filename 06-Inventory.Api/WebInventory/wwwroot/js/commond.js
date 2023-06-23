@@ -1,4 +1,5 @@
-﻿function ParseDataSourceToJson(dataSource) {
+﻿
+function ParseDataSourceToJson(dataSource) {
     return JSON.parse(JSON.stringify(dataSource));
 }
 

@@ -7,7 +7,7 @@ using WebInventory.Services.Inventory;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuracio para recursos
-builder.Services.AddLocalization(options => options.ResourcesPath = "Resource");
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 builder.Services.AddMvc().AddMvcLocalization();
 
 //configuracion lectura de datos appsettings

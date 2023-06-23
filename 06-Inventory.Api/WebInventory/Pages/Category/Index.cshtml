@@ -22,7 +22,7 @@
 @section Scripts{
     <script>
         LoadControls();
-
+        DevExpress.localization.locale("es");
         function LoadControls() {
             var dataSource = ParseDataSourceToJson(@Html.Raw(Model.DataSource));
 
@@ -46,7 +46,7 @@
                     allowAdding: true,
                     texts: {
                         confirmDeleteMessage: "¿Está seguro de que desea eliminar este registro?",
-                        yes: "Si",
+                        Yes: "Si",
                     }
                 },
                 rowAlternationEnabled: true,
@@ -56,6 +56,12 @@
                         dataField: "code",
                         caption: "Codigo",
                         width: 150,
+                        validationRules: [
+                            {
+                                type: "required",
+                                message: "@Model._sharedLabels["RequeridField"]",
+                            }
+                        ]
                     },
                     {
                         dataField: "description",

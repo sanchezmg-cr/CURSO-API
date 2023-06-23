@@ -123,4 +123,7 @@
   <data name="Maintenances" xml:space="preserve">
     <value>Mantenimientos</value>
   </data>
+  <data name="RequeridField" xml:space="preserve">
+    <value>Es campo requerido</value>
+  </data>
 </root>
