@@ -1,0 +1,160 @@
+﻿.ct-menu {
+    left: 10%;
+    top: 100%;
+    padding: 3rem;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 16px 0px rgba(153, 153, 153, 0.15);
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.ct-menu-iconbox {
+    padding: 1.5rem;
+}
+
+.ct-menu__body {
+    display: flex;
+    flex-direction: column;
+}
+
+.ct-menu-iconbox__body {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.ct-menu-iconbox__icon {
+    flex: 0 0 50px;
+    padding-right: 20px;
+}
+
+.ct-menu-iconbox__body .ct-menu-iconbox__desc {
+    display: flex;
+    flex-direction: column;
+}
+
+.ct-menu-iconbox__desc .ct-menu-iconbox__title {
+    font-size: 1.55rem;
+    color: #48465b;
+}
+
+.ct-menu-iconbox__desc .ct-menu-iconbox__content {
+    font-size: 1.1rem;
+    color: #9392a0;
+    font-weight: 400;
+}
+
+
+/*Estilos para grid de devexpress*/
+
+.dx-datagrid .dx-header-filter-empty {
+    color: #03a9f4;
+}
+
+.dx-scrollable-scrollbar.dx-scrollbar-hoverable {
+    background-color: #E0F0FB;
+}
+
+.dx-scrollbar-vertical .dx-scrollable-scroll {
+    height: 100px !important;
+    background-color: #3498DB;
+}
+
+    .dx-scrollbar-vertical .dx-scrollable-scroll .dx-scrollable-scroll-content {
+        background-color: #3498DB;
+    }
+
+.dx-scrollbar-horizontal .dx-scrollable-scroll {
+    width: 100px !important;
+    background-color: #3498DB;
+}
+
+    .dx-scrollbar-horizontal .dx-scrollable-scroll .dx-scrollable-scroll-content {
+        background-color: #3498DB;
+    }
+
+
+/*Estilos para divs de botones con tooltip*/
+.btn-container-tooltip {
+    display: inline-block;
+}
+
+/*Estilos de Notificaciones*/
+#panelNotifications {
+    background-image: url(../media/misc/background-alert.jpg)
+}
+
+.nav-tabs.nav-tabs-line.nav-tabs-line-success.nav.nav-tabs .nav-link:hover,
+.nav-tabs.nav-tabs-line.nav-tabs-line-success a.nav-link:hover {
+    border-bottom: 1px solid #4ab3f4;
+}
+
+.nav-tabs.nav-tabs-line.nav-tabs-line-success.nav.nav-tabs .nav-link:hover, .nav-tabs.nav-tabs-line.nav-tabs-line-success.nav.nav-tabs .nav-link.active,
+.nav-tabs.nav-tabs-line.nav-tabs-line-success a.nav-link:hover,
+.nav-tabs.nav-tabs-line.nav-tabs-line-success a.nav-link.active {
+    border-bottom: 1px solid #4ab3f4;
+}
+
+/*Estilos de botones novus*/
+.btn-mnt-primary {
+    background-color: #03a9f4;
+    border-color: #03a9f4;
+    color: #ffffff;
+    padding-right: 2.25rem;
+    padding-left: 2.25rem;
+    border-radius: 5px;
+}
+
+.btn-mnt-secundary {
+    color: #03a9f4;
+    background: #E0E8FF;
+    border: 1px solid #e8ecfa;
+    padding-right: 2.25rem;
+    padding-left: 2.25rem;
+    border-radius: 5px;
+}
+
+/*Estilos de labels novus*/
+label {
+    font-weight: bold
+}
+
+/*Se coloca para evitar que el texto se muestre en mayúscula*/
+.dx-button-text {
+    text-transform: none !important;
+}
+
+/*Colocar asterisco a label de campos que son requeridos*/
+.required-field:after {
+    content: " *";
+    color: #c9302c;
+}
+
+/*Centrar el contenido del div que muestra la etiqueta que indica campos Requeridos*/
+.required-text {
+    display: flex;
+    align-items: center;
+}
+
+.required-asterisk:before {
+    content: "* ";
+    color: #c9302c;
+}
+
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td,
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td,
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td,
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > tr > td {
+    background-color: #B4E4FC !important;
+    color: rgba(0,0,0,.87);
+}
+
+.dx-invalid-message > .dx-overlay-content {
+    background-color: #ffffff;
+}
