@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@using System.Text.Json;
+@model ViewModels.Item
+
+
+<h5 class="kt-section__title">Detalle</h5>
+<div class="kt-section__body">
+    <div class="form-group row">
+        <div class="col-lg-3">
+            <label>Codigo</label>
+            <div id="Code"></div>
+        </div>
+        <div class="col-lg-3">
+            <label>Descripcion</label>
+            <div id="Description"></div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!--begin::JS Code-->
+<script>
+    function LoadItemDetailsControls() {
+        let model = ParseViewModelPropertyToJson(@Html.Raw(JsonSerializer.Serialize(Model)));
+        
+        $("#Code").dxTextBox({
+            name: "Item.Code",
+            value: model.Code,
+            readOnly: true
+        });
+        $("#Description").dxTextBox({
+            name: "Item.Description",
+            value: model.Description,
+            readOnly: true
+        });
+    }
+</script>
+

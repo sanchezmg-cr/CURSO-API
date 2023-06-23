@@ -14,7 +14,7 @@
             <div class="kt-subheader__breadcrumbs">
                 <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
                 <a asp-page="Index" class="kt-subheader__breadcrumbs-link">
-                    @Model.SharedLabelsLocalizer["Forms"]
+                    @Model.SharedLabelsLocalizer["Items"]
                 </a>
                 <span class="kt-subheader__breadcrumbs-separator"></span>
                 <span class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">@Model.SharedLabelsLocalizer["FormDetail"]</span>
@@ -37,14 +37,16 @@
                     </div>
                 </div>
                 <div class="kt-portlet__body">
-                    @await Component.InvokeAsync("FormDetails", new { formId = Model.FormId, code = Model.CodeId })
+
+                    @await Component.InvokeAsync("ItemDetails", new { code = Model.Code })
+
                 </div>
                 <div class="kt-portlet__foot">
                     <div class="kt-form__actions">
                         <div class="row">
                             <div class="col-lg-12 text-right">
                                 <a asp-page="./Index" class="btn btn-mnt-secundary btn-elevate btn-elevate-air"><i class="fa fa-arrow-left"></i>@Model.SharedLabelsLocalizer["BackButton"]</a>
-                                <a asp-page="./Edit" asp-route-form="@Model.FormId" asp-route-companyId="@Model.CodeId" class="btn btn-mnt-primary btn-elevate btn-elevate-air"><i class="fa fa-edit"></i>@Model.SharedLabelsLocalizer["EditButton"]</a>
+                                <a asp-page="./Edit"  asp-route-codeId="@Model.Code" class="btn btn-mnt-primary btn-elevate btn-elevate-air"><i class="fa fa-edit"></i>@Model.SharedLabelsLocalizer["EditButton"]</a>
                             </div>
                         </div>
                     </div>
@@ -58,8 +60,11 @@
 <!--begin::JS Code-->
 @section Scripts{
     <script>
+
+        LoadControls();
+
         function LoadControls() {
-            LoadFormDetailsControls();
+            LoadItemDetailsControls();
         }
     </script>
 }

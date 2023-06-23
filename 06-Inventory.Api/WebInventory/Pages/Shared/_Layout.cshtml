@@ -6,29 +6,33 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <base href="">
     <meta charset="utf-8" />
-    @*<title>@ViewData["Title"] - WebInventory</title>*@
     <title>@_localizer["Title"] | @_localizer["PageTitle"] - @_localizer["General"]</title>
     <meta name="description" content="Latest updates and statistic charts">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!--begin::Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">
-    <!--end::Fonts -->
 
+    <!--end::Fonts -->
     <!--begin::Page Vendors Styles(used by this page) -->
     <link href="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
-    <!--end::Page Vendors Styles -->
 
+    <!--end::Page Vendors Styles -->
     <!--begin::Global Theme Styles(used by all pages) -->
     <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
-    <!--end::Global Theme Styles -->
 
+    <!--end::Global Theme Styles -->
+    <!--begin::Layout Skins(used by all pages) -->
+    <!--end::Layout Skins -->
     <!-- DevExtreme themes -->
+    @*<link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/19.1.6/css/dx.common.css">*@
+    @*<link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/19.1.6/css/dx.light.css">*@
     <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.common.css">
     <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.material.blue.light.compact.css">
 
@@ -39,10 +43,6 @@
 
     @*<link href="https://panel.chatcompose.com/static/global/export/css\main.af14124f.css" rel="stylesheet">
     <script async type="text/javascript" src="https://panel.chatcompose.com/static/global/export/js\main.82da0a06.js" user="juanjo0889"></script>*@
-
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebInventory.styles.css" asp-append-version="true" />
 </head>
 
 <body>
@@ -79,15 +79,101 @@
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/commond.js"></script>
+    <style type="text/css">
+        #container-logout {
+            border-radius: 10px;
+        }
 
+        #bg-logout {
+            background: linear-gradient(90deg, #19689C 0%, #2583C2 100%);
+            border-radius: 10px 10px 0 0;
+        }
+
+        #bg-logout-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .bg-avatar-img {
+            border-radius: 50%;
+            border: 1.5px solid #FFFFFF;
+        }
+
+        .items-menu {
+            font-family: Poppins;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 143.69%;
+            color: #6C7A89;
+        }
+
+            .items-menu:hover {
+                color: #434c56 !important;
+            }
+    </style>
+
+    <!-- begin::Global Config(global config for global JS sciprts) -->
+    <script>
+        var KTAppOptions = {
+            "colors": {
+                "state": {
+                    "brand": "#2c77f4",
+                    "light": "#ffffff",
+                    "dark": "#282a3c",
+                    "primary": "#5867dd",
+                    "success": "#34bfa3",
+                    "info": "#36a3f7",
+                    "warning": "#ffb822",
+                    "danger": "#fd3995"
+                },
+                "base": {
+                    "label": ["#c5cbe3", "#a1a8c3", "#3d4465", "#3e4466"],
+                    "shape": ["#f0f3ff", "#d9dffa", "#afb4d4", "#646c9a"]
+                }
+            }
+        };
+    </script>
+
+
+    <!-- end::Global Config -->
+    <!--begin::Global Theme Bundle(used by all pages) -->
+    <script src="~/assets/plugins/global/plugins.bundle.js" type="text/javascript"></script>
+    <script src="~/assets/js/scripts.bundle.js" type="text/javascript"></script>
+    @*<script src="~/assets/js/jszip.min.js"></script>*@
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>*@
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+
+    <!--end::Global Theme Bundle -->
     <!-- DevExtreme library -->
     <!-- Debe estar después de jquery que viene en plugins.bundle.js-->
+    @*<script type="text/javascript" src="https://cdn3.devexpress.com/jslib/19.1.6/js/dx.all.js"></script>*@
+    @*<script src="https://cdn3.devexpress.com/jslib/19.1.6/js/localization/dx.messages.es.js"></script>*@
     <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/21.1.5/js/dx.all.js"></script>
     <script src="https://cdn3.devexpress.com/jslib/21.1.5/js/localization/dx.messages.es.js"></script>
+    <!-- DevExtreme-Intl module -->
+    @*Al parecer no se requiere desde v19.2: https://www.npmjs.com/package/devextreme-intl
+    <script src="https://unpkg.com/devextreme-intl@19.1/dist/devextreme-intl.min.js"></script>*@
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>*@
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.1/exceljs.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <script src="~/assets/js/Commond.js"></script>
+
+    <!--begin::Page Vendors(used by this page) -->
+    <script src="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
+    <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM" type="text/javascript"></script>
+    <script src="~/assets/plugins/custom/gmaps/gmaps.js" type="text/javascript"></script>
+
+    <!--end::Page Vendors -->
+    <!--begin::Page Scripts(used by this page) -->
+    <script src="~/assets/js/pages/dashboard.js" type="text/javascript"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+
+
     <!-- DevExtreme-Intl module -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
