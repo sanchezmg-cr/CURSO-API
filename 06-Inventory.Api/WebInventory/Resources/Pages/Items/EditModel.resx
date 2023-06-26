@@ -117,19 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="EditingItems" xml:space="preserve">
-    <value>Editando Artículo</value>
+  <data name="Category" xml:space="preserve">
+    <value>Categoría</value>
+  </data>
+  <data name="CategoryDescription" xml:space="preserve">
+    <value>Descripción Categoría</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Código</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="EditItemLabel" xml:space="preserve">
+    <value>Editar Artículo</value>
+  </data>
+  <data name="ItemFirstDataLabel" xml:space="preserve">
+    <value>1.Principal</value>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>Articulos</value>
-  </data>
-  <data name="Maintenances" xml:space="preserve">
-    <value>Mantenimientos</value>
-  </data>
-  <data name="RequeridField" xml:space="preserve">
-    <value>Es campo requerido</value>
-  </data>
-  <data name="Start" xml:space="preserve">
-    <value>Desarrollo</value>
+    <value>Artículos</value>
   </data>
 </root>
