@@ -1,180 +1,527 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization;
-@using Microsoft.Extensions.Configuration
-@using System.Security.Claims;
+@using Microsoft.Extensions.Configuration;
+@using System.Net;
 
 @inject IViewLocalizer _localizer
+@inject IConfiguration _configuration
+@*@inject ILogisticServices _logisticServices*@
 
-<!DOCTYPE html>
-<html lang="en">
+@try
+{
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@_localizer["Title"] | @_localizer["PageTitle"] - @_localizer["Logistic"]</title>
+        <meta name="description" content="Latest updates and statistic charts">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<head>
-    <base href="">
-    <meta charset="utf-8" />
-    <title>@_localizer["Title"] | @_localizer["PageTitle"] - @_localizer["General"]</title>
-    <meta name="description" content="Latest updates and statistic charts">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--begin::Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">
+        <!--end::Fonts -->
+        <!--begin::Page Vendors Styles(used by this page) -->
+        <link href="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+        <!--end::Page Vendors Styles -->
+        <!--begin::Global Theme Styles(used by all pages) -->
+        <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+        <link href="~/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+        <!--end::Global Theme Styles -->
+        <!--begin::Layout Skins(used by all pages) -->
+        <!--end::Layout Skins -->
+        <!-- DevExtreme themes -->
+        <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.common.css">
+        <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.material.blue.light.compact.css">
 
-    <!--begin::Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">
+        @*Importaciones de stilos custom*@
+        <link href="~/assets/css/custom.css" rel="stylesheet" />
 
-    <!--end::Fonts -->
-    <!--begin::Page Vendors Styles(used by this page) -->
-    <link href="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="~/assets/media/logos/favicon.ico" />
 
-    <!--end::Page Vendors Styles -->
-    <!--begin::Global Theme Styles(used by all pages) -->
-    <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
-    <link href="~/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+        <!--Key Bing Map -->
+        @*<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=Aly9Dxov2EDFObf4hvJ5O7Q9c5ytySQAOyD20qxU4FttKAFx-ZF5zM2OGp5CO--l'></script>*@
+        <!--Key Google Map -->
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=@_configuration["GoogleApiKey"]&callback=initMap"></script>
 
-    <!--end::Global Theme Styles -->
-    <!--begin::Layout Skins(used by all pages) -->
-    <!--end::Layout Skins -->
-    <!-- DevExtreme themes -->
-    @*<link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/19.1.6/css/dx.common.css">*@
-    @*<link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/19.1.6/css/dx.light.css">*@
-    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.common.css">
-    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.1.5/css/dx.material.blue.light.compact.css">
 
-    @*Importaciones de stilos custom*@
-    <link href="~/assets/css/custom.css" rel="stylesheet" />
-
-    <link rel="shortcut icon" href="~/assets/media/logos/favicon.ico" />
-
-    @*<link href="https://panel.chatcompose.com/static/global/export/css\main.af14124f.css" rel="stylesheet">
+        @*<link href="https://panel.chatcompose.com/static/global/export/css\main.af14124f.css" rel="stylesheet">
     <script async type="text/javascript" src="https://panel.chatcompose.com/static/global/export/js\main.82da0a06.js" user="juanjo0889"></script>*@
-</head>
+    </head>
+    <!-- begin::Body -->
+    <body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading">
 
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">WebInventory</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Category/Index">Categorias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Items/Index">Articulos</a>
-                        </li>
-                    </ul>
+        <!-- begin:: Page -->
+        <!-- begin:: Header Mobile -->
+        <div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
+            <div class="kt-header-mobile__logo">
+                <a href="@_configuration["NovusWebLogisticUrl"]">
+                    <img alt="Logo" src="~/assets/media/logos/logo-Novus.png" />
+                </a>
+            </div>
+            <div class="kt-header-mobile__toolbar">
+                <button class="kt-header-mobile__toolbar-toggler kt-header-mobile__toolbar-toggler--left" id="kt_aside_mobile_toggler"><span></span></button>
+                <button class="kt-header-mobile__toolbar-toggler" id="kt_header_mobile_toggler"><span></span></button>
+                <button class="kt-header-mobile__toolbar-topbar-toggler" id="kt_header_mobile_topbar_toggler"><i class="flaticon-more"></i></button>
+            </div>
+        </div>
+        <!-- end:: Header Mobile -->
+        <div class="kt-grid kt-grid--hor kt-grid--root">
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+
+                <!-- begin:: Aside -->
+                <button class="kt-aside-close " id="kt_aside_close_btn"><i class="la la-close"></i></button>
+                <div class="kt-aside  kt-aside--fixed  kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop" id="kt_aside">
+
+                    <!-- begin:: Aside -->
+                    <div class="kt-aside__brand kt-grid__item " id="kt_aside_brand">
+                        <div class="kt-aside__brand-logo">
+                            <a href="@_configuration["NovusWebAdminUrl"]">
+                                <img alt="Logo" src="~/assets/media/logos/logo-Novus.png">
+                            </a>
+                        </div>
+                        <div class="kt-aside__brand-tools">
+                            <button class="kt-aside__brand-aside-toggler" id="kt_aside_toggler"><span></span></button>
+                        </div>
+                    </div>
+
+                    <!-- end:: Aside -->
+                    <!-- begin:: Aside Menu -->
+                    <div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
+                        <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1" data-ktmenu-dropdown-timeout="500">
+                            <ul class="kt-menu__nav ">
+                                <li class="kt-menu__item  kt-menu__item" aria-haspopup="true">
+                                    <a href="@_configuration["NovusWebLogisticUrl"]" class="kt-menu__link " style="flex: 0 0 25px;">
+                                        <img alt="Logo" src="~/assets/media/logos/logo-icono.png" style="width: 25px;">
+                                        <span class="kt-menu__link-text" style="padding-left: 5px;">
+                                            <img alt="Logo nombre" src="~/assets/media/logos/logo-naming.png">
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="kt-menu__nav ">
+                                <li class="kt-menu__item  kt-menu__item--active" aria-haspopup="true"><a href="@_configuration["NovusWebLogisticUrl"]" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-home"></i><span class="kt-menu__link-text">@_localizer["Start"]</span></a></li>
+                                <li class="kt-menu__section ">
+                                    <h4 class="kt-menu__section-text">@_localizer["Logistic"]</h4>
+                                    <i class="kt-menu__section-icon flaticon-more-v2"></i>
+                                </li>
+
+                                <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                                    <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-wrench"></i><span class="kt-menu__link-text">@_localizer["Maintenances"]</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                    <div class="kt-menu__submenu ">
+                                        <ul class="kt-menu__subnav">
+                                            <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link"><span class="kt-menu__link-text">@_localizer["Maintenances"]</span></span></li>
+                                            <li class="kt-menu__item " aria-haspopup="true"><a asp-page="/Category/Index" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">@_localizer["Categories"]</span><span class="kt-menu__link-badge"></span></a></li>
+                                            <li class="kt-menu__item " aria-haspopup="true"><a asp-page="/Items/Index" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">@_localizer["Items"]</span><span class="kt-menu__link-badge"></span></a></li>
+                                        </ul>
+
+                                    </div>
+                                </li>
+
+                                <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                                    <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon fa fa-clipboard"></i><span class="kt-menu__link-text">@_localizer["Process"]</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                                    <div class="kt-menu__submenu ">
+                                        <ul class="kt-menu__subnav">
+                                            <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link"><span class="kt-menu__link-text">@_localizer["Process"]</span></span></li>
+                                            <li class="kt-menu__item " aria-haspopup="true"><a asp-page="/ContractServices/Index" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span class="kt-menu__link-text">@_localizer["ContractServices"]</span><span class="kt-menu__link-badge"></span></a></li>
+                                            <li class="kt-menu__item " aria-haspopup="true"><a asp-page="/Routes/Index" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span class="kt-menu__link-text">@_localizer["Routes"]</span><span class="kt-menu__link-badge"></span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- end:: Aside Menu -->
+                </div>
+
+                <!-- end:: Aside -->
+                <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+
+                    <!-- begin:: Header -->
+                    <div id="kt_header" class="kt-header kt-grid__item  kt-header--fixed ">
+
+                        <!-- begin: Header Menu -->
+                        <button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
+                        <div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
+                            <div id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile  kt-header-menu--layout-default ">
+                                <ul class="kt-menu__nav ">
+                                    <li class="kt-menu__item  kt-menu__item--active " aria-haspopup="true"><a href="@_configuration["NovusWebLogisticUrl"]" class="kt-menu__link "><span class="kt-menu__link-text">@_localizer["Logistic"]</span></a></li>
+                                    <li class="kt-menu__item  kt-menu__item--submenu kt-menu__item--rel" data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                                        <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">@_localizer["Modules"]&nbsp;<i class="fa fa-angle-down"></i></span></a>
+                                        <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                                            <ul class="kt-menu__subnav">
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@_configuration["NovusWebAdminUrl"]" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-menu"></i><span class="kt-menu__link-text">@_localizer["Administration"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@_configuration["NovusWebAccountingUrl"]" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-open-text-book"></i><span class="kt-menu__link-text">@_localizer["Accounting"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@_configuration["NovusWebBankUrl"]" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-building"></i><span class="kt-menu__link-text">@_localizer["Bank"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@_configuration["NovusWebPayableUrl"]" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-inbox"></i><span class="kt-menu__link-text">@_localizer["Payable"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@_configuration["NovusWebFixedAssetsUrl"]" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-archive"></i><span class="kt-menu__link-text">@_localizer["FixedAssets"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@(_configuration["NovusWebCommercialUrl"] + "?centerChange=true")" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-shopping-cart-1"></i><span class="kt-menu__link-text">@_localizer["Commercial"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@(_configuration["NovusWebInventoryUrl"] + "?centerChange=true")" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-box-1"></i><span class="kt-menu__link-text">@_localizer["Inventory"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@_configuration["NovusWebPurchaseUrl"]" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-delivery-truck"></i><span class="kt-menu__link-text">@_localizer["Purchase"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href=@(@_configuration["NovusWebReceivableUrl"] + "?centerChange=true") class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-list"></i><span class="kt-menu__link-text">@_localizer["Receivable"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@_configuration["NovusWebWMSUrl"]" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-open-box"></i><span class="kt-menu__link-text">@_localizer["WMS"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@_configuration["NovusWebPayrollUrl"]" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-avatar"></i><span class="kt-menu__link-text">@_localizer["Payroll"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@_configuration["NovusWebGeneralUrl"]" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-settings"></i><span class="kt-menu__link-text">@_localizer["General"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@(_configuration["NovusWebBudgetUrl"])" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-calculator"></i><span class="kt-menu__link-text">@_localizer["Budget"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@(_configuration["NovusWebConsolidationUrl"])" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-object-ungroup"></i><span class="kt-menu__link-text">@_localizer["FinancialStatements"]</span></a></li>
+                                                <li class="kt-menu__item " aria-haspopup="true"><a href="@(_configuration["NovusWebSecurityUrl"])" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-lock"></i><span class="kt-menu__link-text">@_localizer["Security"]</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- end: Header Menu -->
+                        <!-- begin:: Header Topbar -->
+                        <div class="kt-header__topbar">
+
+                            <!-- begin: MonthProgress -->
+                            @*@if (_identityService.IsUserAuthenticated())
+                        {
+                        var company = await _logisticServices.GetCompanyById(_identityService.GetCompanyId(), _identityService.GetToken());
+
+                        <div class="kt-header__topbar-item">
+                        <div class="kt-header__topbar-wrapper row">
+                        <div class="col-sm-12 align-self-center">
+                        @if (company != null)
+                        {
+                        var monthProgress = company.ProcessYearMonth.Value.ToString("MMMM yyyy");
+                        <span class="text-white">@_localizer["MonthProgress"] @char.ToUpper(monthProgress[0])@monthProgress.Substring(1) </span>
+                        }
+                        </div>
+                        </div>
+                        </div>
+                        }*@
+                            <!--end: MonthProgress-->
+                            <!--begin: Notifications -->
+                            <div id="notifyContainer" class="kt-header__topbar-item dropdown">
+                                <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="30px,0px" onclick="ControlRefreshNotifications(true)">
+
+                                    <span id="iconNotifyContainer" class="kt-header__topbar-icon kt-pulse kt-pulse--brand">
+                                        <i class="flaticon2-bell-alarm-symbol"></i>
+                                    </span>
+
+                                    <!--
+                                        Use dot badge instead of animated pulse effect:
+                                        <span class="kt-badge kt-badge--dot kt-badge--notify kt-badge--sm kt-badge--brand"></span>
+                                    -->
+                                </div>
+                                <div id="divDropdownNotifications" class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-lg">
+                                </div>
+                            </div>
+                            <!--end: Notifications -->
+                            <!--begin: User Bar -->
+                            <!--end: User Bar -->
+                        </div>
+
+                        <!-- end:: Header Topbar -->
+                    </div>
+
+                    <!-- end:: Header -->
+                    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+
+                        <!-- begin:: Subheader -->
+                        <!-- end:: Subheader -->
+                        <!-- begin:: Content -->
+
+                        <div id="alert_content" class="alert alert-danger fade show" role="alert" style="display:none">
+                            <div class="alert-icon"><i class="flaticon-cancel"></i></div>
+                            <div id="alert_message" class="alert-text"></div>
+                            <div class="alert-close">
+                                <button type="button" class="close" onclick="$('#alert_content').fadeOut('slow')" aria-label="Close">
+                                    <span aria-hidden="true"><i class="la la-close"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                        @RenderBody()
+
+                        <!-- end:: Content -->
+                    </div>
+
+                    <!-- begin:: Footer -->
+                    <div class="kt-footer  kt-grid__item kt-grid kt-grid--desktop kt-grid--ver-desktop" id="kt_footer">
+                        <div class="kt-container  kt-container--fluid ">
+                            <div class="kt-footer__copyright">
+                                2020&nbsp;&copy;&nbsp;<a href="https://www.codisa.com/" target="_blank" class="kt-link">Codisa</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- end:: Footer -->
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - WebInventory - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
-    </footer>
+        <!-- end:: Page -->
+        <!-- begin::ModalAllNotifications -->
+        <div class="modal fade" id="modalNotification" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">@_localizer["TitleModalNotification"]</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div id="dvData" style="max-height: 400px;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-mnt-primary" onclick="hideModal('modalNotification')">@_localizer["BtnModalNotification"]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end::ModalAllNotifications -->
+        <!-- begin::ModalProfile -->
+        <div class="modal fade show" id="modalProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div id="contentModalProfile" class="modal-content">
+                </div>
+            </div>
+        </div>
+        <!-- end::ModalProfile -->
+        <!-- begin::ModalChangePass -->
+        <div class="modal fade show" id="modalChangePass" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div id="contentModalChangePass" class="modal-content">
+                </div>
+            </div>
+        </div>
+        <!-- end::ModalChangePass -->
+        <!-- begin::ModalChangePIN -->
+        <div class="modal fade show" id="modalChangePIN" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div id="contentModalChangePIN" class="modal-content">
+                </div>
+            </div>
+        </div>
+        <!-- end::ModalChangePIN -->
+        <!-- begin::Scrolltop -->
+        <div id="kt_scrolltop" class="kt-scrolltop">
+            <i class="fa fa-arrow-up"></i>
+        </div>
+        <!-- end::Scrolltop -->
 
-    <style type="text/css">
-        #container-logout {
-            border-radius: 10px;
-        }
-
-        #bg-logout {
-            background: linear-gradient(90deg, #19689C 0%, #2583C2 100%);
-            border-radius: 10px 10px 0 0;
-        }
-
-        #bg-logout-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .bg-avatar-img {
-            border-radius: 50%;
-            border: 1.5px solid #FFFFFF;
-        }
-
-        .items-menu {
-            font-family: Poppins;
-            font-style: normal;
-            font-weight: normal;
-            font-size: 14px;
-            line-height: 143.69%;
-            color: #6C7A89;
-        }
-
-            .items-menu:hover {
-                color: #434c56 !important;
+        <style type="text/css">
+            #container-logout {
+                border-radius: 10px;
             }
-    </style>
 
-    <!-- begin::Global Config(global config for global JS sciprts) -->
-    <script>
-        var KTAppOptions = {
-            "colors": {
-                "state": {
-                    "brand": "#2c77f4",
-                    "light": "#ffffff",
-                    "dark": "#282a3c",
-                    "primary": "#5867dd",
-                    "success": "#34bfa3",
-                    "info": "#36a3f7",
-                    "warning": "#ffb822",
-                    "danger": "#fd3995"
-                },
-                "base": {
-                    "label": ["#c5cbe3", "#a1a8c3", "#3d4465", "#3e4466"],
-                    "shape": ["#f0f3ff", "#d9dffa", "#afb4d4", "#646c9a"]
+            #bg-logout {
+                background: linear-gradient(90deg, #19689C 0%, #2583C2 100%);
+                border-radius: 10px 10px 0 0;
+            }
+
+            #bg-logout-img {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            .bg-avatar-img {
+                border-radius: 50%;
+                border: 1.5px solid #FFFFFF;
+            }
+
+            .items-menu {
+                font-family: Poppins;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 143.69%;
+                color: #6C7A89;
+            }
+
+                .items-menu:hover {
+                    color: #434c56 !important;
                 }
-            }
-        };
-    </script>
+        </style>
 
-
-    <!-- end::Global Config -->
-    <!--begin::Global Theme Bundle(used by all pages) -->
-    <script src="~/assets/plugins/global/plugins.bundle.js" type="text/javascript"></script>
-    <script src="~/assets/js/scripts.bundle.js" type="text/javascript"></script>
-    @*<script src="~/assets/js/jszip.min.js"></script>*@
-    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>*@
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
-
-    <!--end::Global Theme Bundle -->
-    <!-- DevExtreme library -->
-    <!-- Debe estar después de jquery que viene en plugins.bundle.js-->
-    @*<script type="text/javascript" src="https://cdn3.devexpress.com/jslib/19.1.6/js/dx.all.js"></script>*@
-    @*<script src="https://cdn3.devexpress.com/jslib/19.1.6/js/localization/dx.messages.es.js"></script>*@
-    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/21.1.5/js/dx.all.js"></script>
-    <script src="https://cdn3.devexpress.com/jslib/21.1.5/js/localization/dx.messages.es.js"></script>
-    <!-- DevExtreme-Intl module -->
-    @*Al parecer no se requiere desde v19.2: https://www.npmjs.com/package/devextreme-intl
+        <!-- begin::Global Config(global config for global JS sciprts) -->
+        <script>
+            var KTAppOptions = {
+                "colors": {
+                    "state": {
+                        "brand": "#2c77f4",
+                        "light": "#ffffff",
+                        "dark": "#282a3c",
+                        "primary": "#5867dd",
+                        "success": "#34bfa3",
+                        "info": "#36a3f7",
+                        "warning": "#ffb822",
+                        "danger": "#fd3995"
+                    },
+                    "base": {
+                        "label": ["#c5cbe3", "#a1a8c3", "#3d4465", "#3e4466"],
+                        "shape": ["#f0f3ff", "#d9dffa", "#afb4d4", "#646c9a"]
+                    }
+                }
+            };
+        </script>
+        <!-- end::Global Config -->
+        <!--begin::Global Theme Bundle(used by all pages) -->
+        <script src="~/assets/plugins/global/plugins.bundle.js" type="text/javascript"></script>
+        <script src="~/assets/js/scripts.bundle.js" type="text/javascript"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+        <!--end::Global Theme Bundle -->
+        <!-- DevExtreme library -->
+        <!-- Debe estar después de jquery que viene en plugins.bundle.js-->
+        <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/21.1.5/js/dx.all.js"></script>
+        <script src="https://cdn3.devexpress.com/jslib/21.1.5/js/localization/dx.messages.es.js"></script>
+        <!-- DevExtreme-Intl module -->
+        @*Al parecer no se requiere desde v19.2: https://www.npmjs.com/package/devextreme-intl
     <script src="https://unpkg.com/devextreme-intl@19.1/dist/devextreme-intl.min.js"></script>*@
-    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>*@
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.1/exceljs.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.1/exceljs.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
-    <script src="~/assets/js/Commond.js"></script>
+        <script src="~/assets/js/Commond.js"></script>
 
-    <!--begin::Page Vendors(used by this page) -->
-    <script src="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
-    <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM" type="text/javascript"></script>
-    <script src="~/assets/plugins/custom/gmaps/gmaps.js" type="text/javascript"></script>
+        <!--begin::Page Vendors(used by this page) -->
+        <script src="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
+        <script src="~/assets/plugins/custom/gmaps/gmaps.js" type="text/javascript"></script>
 
-    <!--end::Page Vendors -->
-    <!--begin::Page Scripts(used by this page) -->
-    <script src="~/assets/js/pages/dashboard.js" type="text/javascript"></script>
-    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+        <!--end::Page Vendors -->
+        <!--begin::Page Scripts(used by this page) -->
+        <script src="~/assets/js/pages/dashboard.js" type="text/javascript"></script>
+        <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 
 
-    <!-- DevExtreme-Intl module -->
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
+
+        <script>
+
+            $(function () {
+                ControlRefreshNotifications(false);
+
+                if (typeof LoadControls == 'function') {
+                    LoadControls();  //Si existe la función en la página, entonces la invoca.  Los controles deben cargarse luego de que estén listos los recursos de localización
+                }
+                var dataOptions = {
+                    dataSource: gridDataSource,
+                    keyExpr: "id",
+                    showRowLines: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    paging: {
+                        enabled: false
+                    },
+                    scrolling: {
+                        mode: "virtual"
+                    },
+                    columns: [
+                        {
+                            dataField: "message",
+                            caption: "@_localizer["GridMessage"]"
+                        }, {
+                            dataField: "createDate",
+                            caption: "@_localizer["GridCreateDate"]",
+                            dataType: "date"
+                        }, {
+                            dataField: "notificationDate",
+                            caption: "@_localizer["GridNotificationDate"]",
+                            dataType: "date"
+                        }, {
+                            dataField: "indicatorNotified",
+                            caption: "@_localizer["GridIndicatorNotified"]",
+                            dataType: "boolean"
+                        }
+                    ],
+                    onToolbarPreparing: function (e) {
+                        e.toolbarOptions.visible = false;
+                    }
+                };
+
+                $("#dvData").dxDataGrid(dataOptions);
+
+            })
+
+            function ControlRefreshNotifications(updateNotifications) {
+                var Element = document.querySelector("#divDropdownNotifications");
+                var url = '@Url.Page("/Notifications/Notifications")';
+                url = url + "?updateNotifications=" + updateNotifications;
+                let args = Array.prototype.slice.call(arguments, 3);
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    contentType: "application/json",
+                }).done(function (response) {
+                    var checkNotificationActive = $("#spanNewNotification").length;
+                    Element.innerHTML = response;
+                    var newNotifications = $("#newNotificationsHidden").val();
+                    if (updateNotifications && checkNotificationActive) {
+                        $('#spanNewNotification').remove();
+                    }
+
+                    if (newNotifications == "True") {
+                        $('#iconNotifyContainer').append('<span id="spanNewNotification" class="kt-pulse__ring kt-badge kt-badge--info"></span>');
+                    }
+                }).fail(function (err) {
+                    console.error(err.toString())
+                });
+            }
+
+
+            function LoadProfile() {
+                let partialUrl = "@Url.Page("/Profile/_Index")";
+                LoadPartialPageContent("contentModalProfile", partialUrl, "LoadPartialProfileControls");
+
+                showModal("modalProfile");
+            };
+
+            function LoadChangePass() {
+                let partialUrl = "@Url.Page("/Profile/_ChangePass")";
+                LoadPartialPageContent("contentModalChangePass", partialUrl, "LoadPartialChangePassControls");
+
+                showModal("modalChangePass");
+            };
+
+            function LoadChangePIN() {
+                let partialUrl = "@Url.Page("/Profile/_ChangePIN")";
+                LoadPartialPageContent("contentModalChangePIN", partialUrl, "LoadPartialChangePINControls");
+
+                showModal("modalChangePIN");
+            };
+
+            function showModal(modalId) {
+                $('#' + modalId).modal({ backdrop: 'static', keyboard: false })
+            }
+
+            function hideModal(modalId) {
+                $('#' + modalId).modal('hide');
+            }
+
+            function Logout() {
+                window.location.href = '@_configuration["LogoutRoute"]';
+            }
+
+        </script>
+
+        @RenderSection("Scripts", required: false)
+
+        @*        <!--begin::Control de mensajes de notificación-->
+    @if (TempData["PageMessage"] != null && TempData["PageMessage"].ToString() != "")
+    {
+    <script type="text/javascript">
+    var msg = JSON.parse('@Html.Raw(TempData["PageMessage"].ToString())');
+    ShowPageMessage(msg)
+    </script>
+    }*@
+        <!--end::Control de mensajes de notificación-->
+        <!--begin::Validacion si existe compania en modulo de compras-->
+        <!--end:: Validacion si existe compania en modulo de compras-->
+        <!--end::Page Scripts -->
+    </body>
+    <!-- end::Body -->
+    </html>
+}
+catch (Exception ex)
+{
+    if (ex.Message.Contains(HttpStatusCode.Unauthorized.ToString()))
+    {
+        <script type="text/javascript">
+            window.location.href = '@_configuration["LogoutRoute"]';
+        </script>
+    }
+}
