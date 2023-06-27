@@ -23,6 +23,8 @@ namespace WebInventory.Pages.Items
         public string DataSource { get; set; }
         JsonSerializerOptions options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
+        public string DataSourceCategories { get; set; }
+
         [BindProperty]
         public ViewModels.Item Item { get; set; }
 
@@ -41,35 +43,34 @@ namespace WebInventory.Pages.Items
             _inventoryService = inventoryService;
         }
 
-        public void OnGet()
+        public async Task<ActionResult> OnGet()
         {
             //if (string.IsNullOrEmpty(code) || code.Equals(nameof(code)))
             //    return RedirectToPage("./Index");
 
-            //await GetRequiredDataToLoadPage(code);
-            //return Page();
+            await GetRequiredDataToLoadPage();
+            return Page();
 
         }
 
-        //private async Task GetRequiredDataToLoadPage(string code)
-        //{
-        //    PageMessage msg;
-        //    //ViewModels.Item item = new ViewModels.Item();
-        //    try
-        //    {
-        //        var response = _inventoryService.GetItem(Convert.ToInt32(code));
+        private async Task GetRequiredDataToLoadPage()
+        {
+            PageMessage msg;
+            //ViewModels.Item item = new ViewModels.Item();
+            try
+            {
+                var response = _inventoryService.GetAllCategories();
 
-        //        await Task.WhenAll(response);
+                await Task.WhenAll(response);
 
-
-        //        Item = response.Result;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        msg = new PageMessage(MessageType.Danger, SharedMessagesLocalizer.GetString("LoadingDataError", HtmlEncoder.Default.Encode(ex.Message)));
-        //        TempData["PageMessage"] = JsonSerializer.Serialize(msg);
-        //    }
-        //}
+                DataSourceCategories = response.Result;
+            }
+            catch (Exception ex)
+            {
+                msg = new PageMessage(MessageType.Danger, SharedMessagesLocalizer.GetString("LoadingDataError", HtmlEncoder.Default.Encode(ex.Message)));
+                TempData["PageMessage"] = JsonSerializer.Serialize(msg);
+            }
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {

@@ -71,6 +71,11 @@
                     </div>
                     @*                    }*@
 
+                    <button id="deleteButton" type="button" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" onclick="DeleteItem()">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <div style="display: none;" id="deleteButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DeleteButton"]</h6></div>
+
 
                     <div class="dropdown dropdown-inline">
                         <button id="optionsButton" type="button" class="btn btn-mnt-circle btn-elevate btn-circle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dat-placement="top" title="@Model.SharedLabelsLocalizer["OptionsGridButton"]" data-original-title="@Model.SharedLabelsLocalizer["OptionsGridButton"]">
@@ -112,6 +117,48 @@
         <!--end::Portlet-->
     </div>
 </div>
+
+<!-- begin:: Modal Delete -->
+
+<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalTitle" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-horizontal" style="padding-bottom:5px">
+                    <div class="alert alert-danger fade show" role="alert">
+                        <div class="text-warning text-center">Estas Seguro?</div>
+                    </div>
+                    <div id="deleteValidationMessage" class="text-center" style="padding: 0px 25px 0px 25px;">
+                        <span>Al <b style="color: #fd397a">eliminar</b> esta registro se perderá toda la información asociada</span>
+                    </div>
+                    <form id="popupDeleteForm" method="post" action="" enctype="multipart/form-data" style="padding: 25px;">
+                        <div class="row">
+                            <div class="col-lg-12" style="border: 1px solid #03a9f4; padding: 15px; border-radius: 5px;">
+                                <div class="row">
+                                    <div class="col-lg-12" id="lblDeleteCode" style="font-size: 11px;"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12" id="lblDeleteDescription" style="font-size: 11px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer" style="justify-content: center;">
+                <button type="button" class="btn btn-secundary" data-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <button id="applyDelete" type="button" class="btn btnprimary">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end:: Modal Delete -->
 
 <!--inicio::JS Code-->
 @section Scripts{
@@ -184,6 +231,55 @@
             //End::Botones
         }
 
+        function DeleteItem() {
+            let dataGrid = $("#itemsGrid").dxDataGrid("instance");
+            let selectedRowsData = dataGrid.getSelectedRowsData();
+
+            if (selectedRowsData.length > 0) {
+                let code = selectedRowsData[0].code;
+                let description = selectedRowsData[0].description;
+                var params = {
+                    code,
+                    description
+                };
+                confirmDelete(params);
+            }
+            else {
+                alert("Seleccione un elemento");
+            };
+        };
+
+
+
+        function confirmDelete(params) {
+            $('#modalDelete').modal('show');
+            $("#lblDeleteCode").text("Codigo: " + params.code);
+            $("#lblDeleteDescription").text("Descripcion: " + params.description);
+        };
+
+
+        $('#applyDelete').click(function (e) {
+            var dataGrid = $("#itemsGrid").dxDataGrid("instance");
+            var selectedRowsData = dataGrid.getSelectedRowsData();
+
+            if (selectedRowsData.length > 0) {
+                let code = selectedRowsData[0].code;
+                var uri = '@Url.Page("./Index")';
+                uri = uri + "?handler=DeleteItem";
+
+                $.ajax({
+                    type: "GET",
+                    url: uri,
+                    data: {
+                        code: code.toString(),
+                    },
+                }).done(function (response) {
+                    window.location.reload();
+                }).fail(function (response) {
+                    window.location.reload();
+                });
+            };
+        });
     </script>
 }
 <!--end::JS Code-->

@@ -1,5 +1,4 @@
-﻿
-@page
+﻿@page
 @model WebInventory.Pages.Category.IndexModel
 @{
 }
@@ -11,9 +10,9 @@
     </div>
 
     <div>
-        <form id="form" asp-page="./Index" method="post">
-            <input asp-for="ActionType" type="text" id="actionTypeHidden"/>
-            <input asp-for="ActionData" type="hidden" id="actionDatahidden" />
+        <form id="form" asp-page="./Index" method="POST">
+            <input asp-for="ActionType" type="text" id="actionTypeHidden" />
+            <input asp-for="ActionData" type="hidden" id="actionDataHidden" />
             <div id="categoriesGrid"></div>
         </form>
     </div>
@@ -23,7 +22,7 @@
 @section Scripts{
     <script>
         LoadControls();
-        DevExpress.localization.locale("es");
+        //DevExpress.localization.locale("es");
         function LoadControls() {
             var dataSource = ParseDataSourceToJson(@Html.Raw(Model.DataSource));
 
@@ -104,7 +103,9 @@
 
         function SubmitForm(action, data) {
             $("#actionTypeHidden").val(action);
-            $("#actionDatahidden").val(data);
+            $("#actionDataHidden").val(data);
+
+            console.log($("#actionTypeHidden").val());
 
             $("form").submit();
         }

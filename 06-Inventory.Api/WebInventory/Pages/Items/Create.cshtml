@@ -66,11 +66,6 @@
                                     <div id="Category"></div>
                                 </div>
 
-                                <div class="col-lg-3">
-                                    <label>@Model.Localizer["CategoryDescription"]:</label>
-                                    <div id="CategoryDescription"></div>
-                                </div>
-
                                 <div class="col-lg-9">
                                 </div>
                             </div>
@@ -129,9 +124,11 @@
 @section Scripts{
 
     <script>
-       
+        
+
         function LoadControls() {
             let model = ParseViewModelPropertyToJson(@Html.Raw(Model.GetJSONViewModel()));
+            let categoriesDataSource = ParseDataSourceToJson(@Html.Raw(Model.DataSourceCategories));
 
             $("#Code").dxTextBox({
                 name: "Item.Code",
@@ -164,24 +161,12 @@
                 }
             );
 
-            $("#Category").dxTextBox({
+            $("#Category").dxSelectBox({
                 name: "Item.Category",
-            }).dxValidator(
-                {
-                    validationRules: [{
-                        type: "required",
-                        message: "@Model.SharedValidationMessagesLocalizer["RequiredField"]"
-                    }, {
-                        type: "stringLength",
-                        max: 40,
-                        message: "@Model.SharedValidationMessagesLocalizer["StringMaxLength",240]"
-                    }]
-                }
-            );
-
-            $("#CategoryDescription").dxTextBox({
-                name: "Item.CategoryDescription",
-                readOnly: true
+                //value: model.Category,
+                dataSource: categoriesDataSource,
+                valueExpr: "code",
+                displayExpr: "description" 
             }).dxValidator(
                 {
                     validationRules: [{

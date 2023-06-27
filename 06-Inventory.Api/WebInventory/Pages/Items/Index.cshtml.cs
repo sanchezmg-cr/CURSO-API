@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using WebInventory.Helpers;
 using WebInventory.Services.DTO;
 using WebInventory.Services.Inventory;
 
@@ -51,6 +53,40 @@ namespace WebInventory.Pages.Items
             var response = await _inventoryService.GetAllItems();
 
             DataSource = response;
+        }
+
+        public async Task<IActionResult> OnGetDeleteItemAsync(string code)
+        {
+            PageMessage msg = null;
+            try
+            {
+                if (string.IsNullOrEmpty(code))
+                {
+                    msg = new PageMessage(MessageType.Danger, _sharedMessagesLocalizer.GetString("NotFoundDeleteMessage"));
+                    TempData["PageMessage"] = JsonSerializer.Serialize(msg, options);
+                }
+                else
+                {
+                    var response = await _inventoryService.DeleteItem(Convert.ToInt32(code));
+                    if (response.Type == "Danger")
+                    {
+                        msg = new PageMessage(MessageType.Danger, response.Message);
+                    }
+
+                    if (response.Type == "Success")
+                    {
+                        msg = new PageMessage(MessageType.Success, _sharedMessagesLocalizer.GetString("DeleteSuccessMessage"));
+                    }
+                    TempData["PageMessage"] = JsonSerializer.Serialize(msg, options);
+                }
+                return new OkResult();
+            }
+            catch (Exception ex)
+            {
+                msg = new PageMessage(MessageType.Danger, _sharedMessagesLocalizer.GetString("DeleteErrorMessage", HtmlEncoder.Default.Encode(ex.Message)));
+                TempData["PageMessage"] = JsonSerializer.Serialize(msg, options);
+                return NotFound();
+            }
         }
     }
 }

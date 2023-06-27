@@ -255,7 +255,7 @@
             </div>
         </div>
         <!-- end:: Page -->
-        <!-- begin::ModalAllNotifications -->
+@*        <!-- begin::ModalAllNotifications -->
         <div class="modal fade" id="modalNotification" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -270,32 +270,36 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
         <!-- end::ModalAllNotifications -->
-        <!-- begin::ModalProfile -->
+
+@*        <!-- begin::ModalProfile -->
         <div class="modal fade show" id="modalProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: none;">
             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                 <div id="contentModalProfile" class="modal-content">
                 </div>
             </div>
         </div>
-        <!-- end::ModalProfile -->
-        <!-- begin::ModalChangePass -->
+        <!-- end::ModalProfile -->*@
+
+@*        <!-- begin::ModalChangePass -->
         <div class="modal fade show" id="modalChangePass" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div id="contentModalChangePass" class="modal-content">
                 </div>
             </div>
         </div>
-        <!-- end::ModalChangePass -->
-        <!-- begin::ModalChangePIN -->
+        <!-- end::ModalChangePass -->*@
+
+@*        <!-- begin::ModalChangePIN -->
         <div class="modal fade show" id="modalChangePIN" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div id="contentModalChangePIN" class="modal-content">
                 </div>
             </div>
         </div>
-        <!-- end::ModalChangePIN -->
+        <!-- end::ModalChangePIN -->*@
+
         <!-- begin::Scrolltop -->
         <div id="kt_scrolltop" class="kt-scrolltop">
             <i class="fa fa-arrow-up"></i>
@@ -387,9 +391,16 @@
         <script src="~/assets/js/pages/dashboard.js" type="text/javascript"></script>
         <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 
+        <script> 
+            $(function () {
+                if (typeof LoadControls == 'function') {
+                    LoadControls();  //Si existe la función en la página, entonces la invoca.  Los controles deben cargarse luego de que estén listos los recursos de localización
+                }
+            });
+        </script>
 
 
-        <script>
+@*        <script>
 
             $(function () {
                 ControlRefreshNotifications(false);
@@ -496,7 +507,7 @@
                 window.location.href = '@_configuration["LogoutRoute"]';
             }
 
-        </script>
+        </script>*@
 
         @RenderSection("Scripts", required: false)
 

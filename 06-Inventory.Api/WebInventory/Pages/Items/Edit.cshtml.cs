@@ -21,6 +21,8 @@ namespace WebInventory.Pages.Items
         private readonly IInventoryService _inventoryService;
 
         public string DataSource { get; set; }
+        public string DataSourceCategories { get; set; }
+
         JsonSerializerOptions options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
         [BindProperty]
@@ -58,11 +60,13 @@ namespace WebInventory.Pages.Items
             try
             {
                 var response = _inventoryService.GetItem(Convert.ToInt32(code));
+                var categories = _inventoryService.GetAllCategories();
 
-                await Task.WhenAll(response);
+                await Task.WhenAll(response, categories);
 
 
                 Item = response.Result;
+                DataSourceCategories = categories.Result;
             }
             catch (Exception ex)
             {
