@@ -41,41 +41,27 @@
             </div>
             <div class="kt-portlet__head-toolbar">
                 <div class="kt-portlet__head-actions">
-                    @*@if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.View))
-                    {*@
                     <div class="btn-container-tooltip">
                         <a id="detailsButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Details" asp-route-code="code" data-dynamic-parameters="code"><i class="fa fa-eye"></i></a>
                         <div id="detailsButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DetailsButton"]</h6></div>
                     </div>
-                    @*                  }
-                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Add))
-                    {
-                    *@                        <div class="btn-container-tooltip">
+                    <div class="btn-container-tooltip">
                         <a id="addButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Create"><i class="fa fa-plus"></i></a>
                         <div id="addButtonTooltip"><h6>@Model.SharedLabelsLocalizer["AddButton"]</h6></div>
                     </div>
-                    @*                 }
-                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Edit))
-                    {
-                    *@                      
                     <div class="btn-container-tooltip">
                         <a id="editButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Edit" asp-route-code="code" data-dynamic-parameters="code" data-original-title="Editar"><i class="fa fa-edit"></i></a>
                         <div id="editButtonTooltip"><h6>@Model.SharedLabelsLocalizer["EditButton"]</h6></div>
                     </div>
-                    @*                    }
-                    @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Delete))
-                    {*@
                     <div class="btn-container-tooltip">
                         <a id="deleteButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Delete" asp-route-code="code" data-dynamic-parameters="code" data-original-title="Eliminar"><i class="fa fa-trash"></i></a>
                         <div id="deleteButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DeleteButton"]</h6></div>
                     </div>
-                    @*                    }*@
 
                     <button id="deleteButton" type="button" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" onclick="DeleteItem()">
                         <i class="fa fa-trash"></i>
                     </button>
                     <div style="display: none;" id="deleteButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DeleteButton"]</h6></div>
-
 
                     <div class="dropdown dropdown-inline">
                         <button id="optionsButton" type="button" class="btn btn-mnt-circle btn-elevate btn-circle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dat-placement="top" title="@Model.SharedLabelsLocalizer["OptionsGridButton"]" data-original-title="@Model.SharedLabelsLocalizer["OptionsGridButton"]">
@@ -119,7 +105,6 @@
 </div>
 
 <!-- begin:: Modal Delete -->
-
 <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalTitle" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -159,7 +144,6 @@
 </div>
 
 <!-- end:: Modal Delete -->
-
 <!--inicio::JS Code-->
 @section Scripts{
     <script>

@@ -45,7 +45,7 @@
                     <div class="kt-portlet__body">
 
                         <h5 class="kt-section__title">@Model.Localizer["ItemFirstDataLabel"]</h5>
-                        
+
                         <div class="kt-section__body">
                             <div class="form-group row">
                                 <div class="col-lg-3">
@@ -128,8 +128,6 @@
 @section Scripts{
 
     <script>
-
-
         function LoadControls() {
             let model = ParseViewModelPropertyToJson(@Html.Raw(Model.GetJSONViewModel()));
             let categoriesDataSource = ParseDataSourceToJson(@Html.Raw(Model.DataSourceCategories));
@@ -229,7 +227,6 @@
                 value: model.UpdateDate,
                 type: "date"
             });
-            
         }
     </script>
 }
