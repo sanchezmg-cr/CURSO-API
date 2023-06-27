@@ -128,19 +128,23 @@
                 columns: [
                     {
                         dataField:"code",
+                        dataType: "string",
                         caption: "Codigo",
                         width: 150,
+                        sortOrder: "asc"
                     },
                     {
                         dataField: "description",
-                        caption: "Descripcion",
+                        dataType: "string",
+                        caption: "Descripcion"
                     },
                 ]
             };
                 $("#itemsGrid").dxDataGrid($.extend(dataOptions, GetGridBasicFormatOptions()));
-            //End::Fin de recuperación de datos y creación del grid
+            //End::Recuperación de datos y creación del grid
 
 
+            //Begin::Botones
             $("#detailsButtonTooltip").dxTooltip({
                 target: "#detailsButton",
                 showEvent: "mouseenter",
@@ -176,6 +180,7 @@
                 position: "top",
                 closeOnOutsideClick: false
             });
+            //End::Botones
         }
 
     </script>

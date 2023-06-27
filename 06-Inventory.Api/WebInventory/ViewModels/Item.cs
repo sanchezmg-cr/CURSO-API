@@ -1,4 +1,6 @@
-﻿namespace WebInventory.ViewModels
+﻿using Microsoft.VisualBasic;
+
+namespace WebInventory.ViewModels
 {
     public class Item
     {
@@ -11,5 +13,6 @@
         public string Brand { get; set; }
         public decimal Weight { get; set; }
         public string BarCode { get; set; }
+        public DateTime? UpdateDate { get; set; }
     }
 }

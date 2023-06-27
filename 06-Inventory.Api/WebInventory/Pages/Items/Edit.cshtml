@@ -41,9 +41,8 @@
                 <!--begin::Form-->
                 <form id="mainForm" class="kt-form kt-form--label-right" method="POST">
 
+
                     <div class="kt-portlet__body">
-                        <input asp-for="ActionData" type="hidden" id="actionDataHidden" />
-                        <input asp-for="ActiveDataGroup" type="hidden" id="activeDataGroupHidden" />
 
                         <h5 class="kt-section__title">@Model.Localizer["ItemFirstDataLabel"]</h5>
                         
@@ -94,10 +93,16 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <label>@Model.Localizer["UpdateDate"]:</label>
+                                    <div id="UpdateDate"></div>
+                                </div>
+                            </div>
                         </div>
 
 
-                        <div id="sectionFormThirdData">
+                       @* <div id="sectionFormThirdData">
                             <h5 class="kt-section__title">@Model.Localizer["FormThirdDataLabel"]</h5>
                             <div class="kt-section__body">
                                 <div class="form-group row">
@@ -107,7 +112,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
                     </div>
                     <div class="kt-portlet__foot">
@@ -118,7 +123,7 @@
                                 </div>
                                 <div class="col-lg-10 text-right">
                                     <a asp-page="./Index" class="btn btn-mnt-secundary btn-elevate btn-elevate-air"><i class="fa fa-arrow-left"></i>@Model.SharedLabelsLocalizer["BackButton"]</a>
-                                    <button type="button" onclick="SubmitThisForm()" class="btn btn-mnt-primary btn-elevate btn-elevate-air"><i class="fa fa-save"></i>@Model.SharedLabelsLocalizer["SaveButton"]</button>
+                                    <button type="submit" class="btn btn-mnt-primary btn-elevate btn-elevate-air"><i class="fa fa-save"></i>@Model.SharedLabelsLocalizer["SaveButton"]</button>
                                 </div>
                             </div>
                         </div>
@@ -142,16 +147,6 @@
 
             let model = ParseViewModelPropertyToJson(@Html.Raw(Model.GetJSONViewModel()));
 
-            const activeItems = [
-                { key: "Si", value: true },
-                { key: "No", value: false }
-            ];
-            var dateYear = new Date();
-            var dateMonth = new Date(dateYear.getFullYear(), 1, 1)
-            dateYear.setFullYear(dateYear.getFullYear());
-            //$("#reservedRequieredLabel").hide();
-            $("#reservedRequieredLabel").removeClass("required-field");
-            $("#sectionFormThirdData").hide();
 
             $("#Code").dxTextBox({
                 name: "Item.Code",
@@ -257,204 +252,12 @@
                 }
             );
 
-
+            $("#UpdateDate").dxDateBox({
+                name: "Form.UpdateDate",
+                value: model.UpdateDate,
+                type: "date"
+            });
             
-            //$("#Active").dxRadioGroup({
-            //    dataSource: activeItems,
-            //    displayExpr: "key",
-            //    valueExpr: "value",
-            //    value: model.Active,
-            //    layout: "horizontal",
-            //    onValueChanged: function (e) {
-            //        $("#activeDataGroupHidden").val(e.value);
-            //    }
-            //});
-
-            $("#InitialNumber").dxNumberBox({
-                name: "Form.InitialNumber",
-                value: model.InitialNumber,
-                step: 0,
-                onValueChanged: function (e) {
-                    HandleInitialValue(e.value);
-                }
-            });
-            $("#FinalNumber").dxNumberBox({
-                name: "Form.FinalNumber",
-                value: model.FinalNumber,
-                step: 0
-            }).dxValidator({
-                validationRules: [{
-                    type: "custom",
-                    validationCallback: validateFinalNumber,
-                    message: "@Model.SharedValidationMessagesLocalizer["SmallerNumberThanInitial"]"
-                }]
-            });
-            $("#Next").dxNumberBox({
-                name: "Form.Next",
-                value: model.Next,
-                step: 0,
-                readOnly: true
-            });
-            $("#Serial").dxTextBox({
-                name: "Form.Serial",
-                value: model.Serial,
-                maxLength: 15
-            });
-
-            var dataOptions = {
-                dataSource: gridDataSource,
-                columns: [
-                    {
-                        dataField: "Form",
-                        caption: "@Model.Localizer["FormId"]"
-                    },
-                    {
-                        dataField: "Year",
-                        dataType: "date",
-                        format: "Year",
-                        editorOptions: {
-                            maxZoomLevel: 'decade',
-                            minZoomLevel: 'century',
-                        },
-                        caption: "@Model.Localizer["Year"]"
-                    },
-                    {
-                        dataField: "Month",
-                        dataType: "date",
-                        format: "Month",
-                        editorOptions: {
-                            maxZoomLevel: 'year',
-                            minZoomLevel: 'century',
-                        },
-                        caption: "@Model.Localizer["Month"]"
-                    },
-                    {
-                        dataField: "Next",
-                        caption: "@Model.Localizer["Next"]"
-                    },
-                    {
-                        dataField: "InitialNumber",
-                        caption: "@Model.Localizer["InitialNumber"]"
-                    },
-                    {
-                        dataField: "FinalNumber",
-                        caption: "@Model.Localizer["FinalNumber"]"
-                    },
-                    {
-                        caption: "@Model.Localizer["Option"]",
-                        type: "buttons",
-                        buttons: [
-                            {
-                                hint: "@Model.SharedLabelsLocalizer["EditButton"]",
-                                cssClass: "fa fa-edit",
-                                onClick: function (e) {
-                                    e.component.editRow(e.row.rowIndex);
-                                },
-                                visible: function (e) {
-                                    return !e.row.isEditing;
-                                }
-                            },
-                            {
-                                hint: "@Model.SharedLabelsLocalizer["SaveButton"]",
-                                cssClass: "fa fa-save",
-                                onClick: function (e) {
-                                    e.component.saveEditData();
-                                },
-                                visible: function (e) {
-                                    return e.row.isEditing;
-                                }
-                            },
-                            {
-                                hint: "@Model.SharedLabelsLocalizer["DeleteButton"]",
-                                cssClass: "fa fa-trash-alt",
-                                onClick: function (e) {
-                                    e.component.deleteRow(e.row.rowIndex);
-                                },
-                                visible: function (e) {
-                                    return !e.row.isEditing;
-                                }
-                            },
-                            {
-                                hint: "@Model.SharedLabelsLocalizer["CancelButton"]",
-                                cssClass: "fa fa-times-circle",
-                                onClick: function (e) {
-                                    e.component.cancelEditData();
-                                },
-                                visible: function (e) {
-                                    return e.row.isEditing;
-                                }
-                            }
-                        ]
-                    }
-                ],
-                onInitNewRow: function (e) {
-                    e.data.InitialNumber = 1;
-                    e.data.Next = 1;
-                },
-                onEditorPreparing: function (e) {
-                    if (e.parentType === "dataRow" && e.dataField === "Month") {
-                        var reset = $("#ResetIndicator").dxSelectBox('instance').option('value');
-                        if (reset == "AM") {
-                            e.editorOptions.disabled = true;
-                        } else {
-                            e.editorOptions.disabled = false;
-                        }
-                    }
-                }
-            };
-
-            $("#mainGridContainer").dxDataGrid($.extend(dataOptions, GetGridEditBasicFormatOptions()));
-            SetDefaultFormValidation("mainForm");
-
         }
-
-        function SubmitThisForm() {
-            var ds = $("#mainGridContainer").dxDataGrid("getDataSource");
-            var data = JSON.stringify(ds._items)
-            $("#actionDataHidden").val(data);
-            //Submit del form
-            SubmitFormSingle("mainForm");
-        }
-
-        function HandleInitialValue(value) {
-            $("#Next").dxNumberBox("instance").option("value", value);
-        };
-
-        function HandleResetIndicator(eventValue) {
-
-            if (eventValue.value == "RN" || eventValue.value == "RA") {
-                //agregar validator a control resevados
-                //$("#reservedRequieredLabel").show();
-                $("#reservedRequieredLabel").addClass("required-field");
-                $("#Reserved").dxTextBox('instance').option('readOnly', false);
-                $("#Reserved").dxValidator("instance").option("validationRules", [
-                    {
-                        type: "required",
-                        message: "@Model.SharedValidationMessagesLocalizer["RequiredField"]"
-                    }
-                ])
-            } else {
-                //$("#reservedRequieredLabel").hide();
-                $("#reservedRequieredLabel").removeClass("required-field");
-                $("#Reserved").dxValidator("instance").option("validationRules", [])
-                $("#Reserved").dxTextBox('instance').option('readOnly', true);
-            }
-            if (eventValue.value == "MM" || eventValue.value == "AM") {
-                //habilitar ingreso consecutivos por periodo
-                $("#sectionFormThirdData").show();
-            } else {
-                $("#sectionFormThirdData").hide();
-            }
-        }
-
-        function validateFinalNumber(e) {
-            if (e.value !== null) {
-                var initial = $("#InitialNumber").dxNumberBox('instance').option('value');
-                return e.value > initial;
-            } else {
-                return true;
-            }
-        }
-
     </script>
 }
