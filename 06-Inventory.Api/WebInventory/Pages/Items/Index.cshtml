@@ -21,7 +21,7 @@
             </div>
         </div>
 
-         <div class="kt-subheader__toolbar">
+        <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
             </div>
         </div>
@@ -43,32 +43,33 @@
                 <div class="kt-portlet__head-actions">
                     @*@if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.View))
                     {*@
-                        <div class="btn-container-tooltip">
-                            <a id="detailsButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Details" asp-route-code="code" data-dynamic-parameters="code"><i class="fa fa-eye"></i></a>
-                            <div id="detailsButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DetailsButton"]</h6></div>
-                        </div>
-@*                  }
+                    <div class="btn-container-tooltip">
+                        <a id="detailsButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Details" asp-route-code="code" data-dynamic-parameters="code"><i class="fa fa-eye"></i></a>
+                        <div id="detailsButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DetailsButton"]</h6></div>
+                    </div>
+                    @*                  }
                     @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Add))
                     {
-*@                        <div class="btn-container-tooltip">
-                            <a id="addButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Create"><i class="fa fa-plus"></i></a>
-                            <div id="addButtonTooltip"><h6>@Model.SharedLabelsLocalizer["AddButton"]</h6></div>
-                        </div>
-  @*                 }
+                    *@                        <div class="btn-container-tooltip">
+                        <a id="addButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Create"><i class="fa fa-plus"></i></a>
+                        <div id="addButtonTooltip"><h6>@Model.SharedLabelsLocalizer["AddButton"]</h6></div>
+                    </div>
+                    @*                 }
                     @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Edit))
                     {
-  *@                      <div class="btn-container-tooltip">
-                            <a id="editButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Edit" asp-route-code="code" data-dynamic-parameters="code" data-original-title="Editar"><i class="fa fa-edit"></i></a>
-                            <div id="editButtonTooltip"><h6>@Model.SharedLabelsLocalizer["EditButton"]</h6></div>
-                        </div>
-    @*                }
+                    *@                      
+                    <div class="btn-container-tooltip">
+                        <a id="editButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Edit" asp-route-code="code" data-dynamic-parameters="code" data-original-title="Editar"><i class="fa fa-edit"></i></a>
+                        <div id="editButtonTooltip"><h6>@Model.SharedLabelsLocalizer["EditButton"]</h6></div>
+                    </div>
+                    @*                    }
                     @if (Model.ValidateFunctionalityAccessPolicy(NovusWebHelpers.Constants.SecurityConstants.FunctionalitiesConstants.General.Maintenances.MT_FORMS, NovusWebHelpers.Constants.SecurityConstants.ActionOptions.Delete))
-                    {
-    *@                    <div class="btn-container-tooltip">
-@*                            <a id="deleteButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Delete" asp-route-code="code" data-dynamic-parameters="code" data-original-title="Eliminar"><i class="fa fa-trash"></i></a>
-                            <div id="deleteButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DeleteButton"]</h6></div>
-*@                        </div>
-@*                    }*@
+                    {*@
+                    <div class="btn-container-tooltip">
+                        <a id="deleteButton" class="btn btn-mnt-circle btn-elevate btn-icon btn-circle" asp-page="Delete" asp-route-code="code" data-dynamic-parameters="code" data-original-title="Eliminar"><i class="fa fa-trash"></i></a>
+                        <div id="deleteButtonTooltip"><h6>@Model.SharedLabelsLocalizer["DeleteButton"]</h6></div>
+                    </div>
+                    @*                    }*@
 
 
                     <div class="dropdown dropdown-inline">
@@ -127,7 +128,7 @@
 
                 columns: [
                     {
-                        dataField:"code",
+                        dataField: "code",
                         dataType: "string",
                         caption: "Codigo",
                         width: 150,
@@ -140,7 +141,7 @@
                     },
                 ]
             };
-                $("#itemsGrid").dxDataGrid($.extend(dataOptions, GetGridBasicFormatOptions()));
+            $("#itemsGrid").dxDataGrid($.extend(dataOptions, GetGridBasicFormatOptions()));
             //End::Recuperación de datos y creación del grid
 
 

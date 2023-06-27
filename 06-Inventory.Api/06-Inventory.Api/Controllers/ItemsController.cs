@@ -229,7 +229,7 @@ namespace _06_Inventory.Api.Controllers
             }
         }
 
-        [HttpPost("DeleteItem/{ArticuloID}")]
+        [HttpDelete("DeleteItem/{articuloId}")]
         public async Task<ActionResult> DeleteItem(int articuloId)
         {
             var deleteRecord = await _context.ARTICULOS.FirstOrDefaultAsync(x => x.CODIGO == articuloId);

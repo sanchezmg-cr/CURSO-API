@@ -1,0 +1,73 @@
+﻿@page
+@model WebInventory.Pages.Items.DeleteModel
+@{
+}
+<!-- begin:: Content Head -->
+<div class="kt-subheader   kt-grid__item" id="kt_subheader">
+    <div class="kt-container  kt-container--fluid ">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                @Model.SharedLabelsLocalizer["Maintenances"]
+            </h3>
+            <span class="kt-subheader__separator kt-hidden"></span>
+            <div class="kt-subheader__breadcrumbs">
+                <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                <a asp-page="Index" class="kt-subheader__breadcrumbs-link">
+                    @Model.SharedLabelsLocalizer["Items"]
+                </a>
+                <span class="kt-subheader__breadcrumbs-separator"></span>
+                <span class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">@Model.SharedLabelsLocalizer["FormDetail"]</span>
+            </div>
+        </div>
+        <div class="kt-subheader__toolbar">
+        </div>
+    </div>
+</div>
+<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <!--begin::Portlet-->
+            <div class="kt-portlet">
+                <form id="mainItemCode" class="kt-form kt-form--label-right" method="POST">
+                    <div class="kt-portlet__body">
+                        <div class="alert alert-warning fade show" role="alert">
+                            <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                            <div class="alert-text">@Model.SharedMessagesLocalizer["DeleteConfirmation"]</div>
+                        </div>
+                        @await Component.InvokeAsync("ItemDetails", new { code = Model.Code })
+                    </div>
+                    <div class="kt-portlet__foot">
+                        <div class="kt-form__actions">
+                            <div class="row">
+                                <div class="col-lg-12 text-right">
+                                    <a asp-page="./Index" class="btn btn-mnt-secundary btn-elevate btn-elevate-air"><i class="fa fa-arrow-left"></i>@Model.SharedLabelsLocalizer["BackButton"]</a>
+                                    <button type="button" id="deleteItem" class="btn btn-mnt-primary btn-elevate btn-elevate-air"><i class="fa fa-trash"></i>@Model.SharedLabelsLocalizer["DeleteButton"]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--end::Portlet-->
+
+        </div>
+    </div>
+</div>
+
+<!--begin::JS Code-->
+@section Scripts{
+    <script>
+
+        LoadControls();
+
+        function LoadControls() {
+            LoadItemDetailsControls();
+        }
+
+        $('#deleteItem').click(function (e) {
+            ShowDeleteConfirmationButtonMessage('mainItemCode');
+        });
+    </script>
+}
+<!--end::JS Code-->

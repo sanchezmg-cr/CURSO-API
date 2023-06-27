@@ -1,4 +1,5 @@
-﻿@page
+﻿
+@page
 @model WebInventory.Pages.Category.IndexModel
 @{
 }
@@ -11,8 +12,8 @@
 
     <div>
         <form id="form" asp-page="./Index" method="post">
-            <input asp-for="ActionType" type="hidden" id="actionTypeHidden"/>
-            <input asp-for="ActionData" type="hidden" id="actionDatahidden"/>
+            <input asp-for="ActionType" type="text" id="actionTypeHidden"/>
+            <input asp-for="ActionData" type="hidden" id="actionDatahidden" />
             <div id="categoriesGrid"></div>
         </form>
     </div>
@@ -101,8 +102,7 @@
             $("#categoriesGrid").dxDataGrid(dataOptions);
         }
 
-        function SubmitForm(action, data) 
-        {
+        function SubmitForm(action, data) {
             $("#actionTypeHidden").val(action);
             $("#actionDatahidden").val(data);
 

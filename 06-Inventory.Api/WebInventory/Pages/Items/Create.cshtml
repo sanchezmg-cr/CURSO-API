@@ -1,0 +1,242 @@
+﻿@page
+@model WebInventory.Pages.Items.CreateModel
+@{
+}
+
+
+<!-- begin:: Content Head -->
+<div class="kt-subheader   kt-grid__item" id="kt_subheader">
+    <div class="kt-container  kt-container--fluid ">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                @Model.SharedLabelsLocalizer["Maintenances"]
+            </h3>
+            <span class="kt-subheader__separator kt-hidden"></span>
+            <div class="kt-subheader__breadcrumbs">
+                <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                <a asp-page="Index" class="kt-subheader__breadcrumbs-link">
+                    @Model.SharedLabelsLocalizer["Items"]
+                </a>
+                <span class="kt-subheader__breadcrumbs-separator"></span>
+                <span class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">@Model.SharedLabelsLocalizer["CreatingItems"]</span>
+            </div>
+        </div>
+        <div class="kt-subheader__toolbar">
+        </div>
+    </div>
+</div>
+<!-- end:: Content Head -->
+
+<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--begin::Portlet-->
+            <div class="kt-portlet">
+                <div class="kt-portlet__head ">
+                    <div class="kt-portlet__head-label">
+                        <h5 class="kt-portlet__head-title">
+                            @Model.Localizer["CreateItemLabel"]
+                        </h5>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form id="mainForm" class="kt-form kt-form--label-right" method="POST">
+
+
+                    <div class="kt-portlet__body">
+
+                        <h5 class="kt-section__title">@Model.Localizer["ItemFirstDataLabel"]</h5>
+
+                        <div class="kt-section__body">
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <label class="required-field">@Model.Localizer["Code"]:</label>
+                                    <div id="Code"></div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label class="required-field">@Model.Localizer["Description"]:</label>
+                                    <div id="Description"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <label>@Model.Localizer["Category"]:</label>
+                                    <div id="Category"></div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <label>@Model.Localizer["CategoryDescription"]:</label>
+                                    <div id="CategoryDescription"></div>
+                                </div>
+
+                                <div class="col-lg-9">
+                                </div>
+                            </div>
+
+                            <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <label>@Model.Localizer["Brand"]:</label>
+                                    <div id="Brand"></div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <label>@Model.Localizer["Weight"]:</label>
+                                    <div id="Weight"></div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <label>@Model.Localizer["BarCode"]:</label>
+                                    <div id="BarCode"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <label>@Model.Localizer["UpdateDate"]:</label>
+                                    <div id="UpdateDate"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="kt-portlet__foot">
+                        <div class="kt-form__actions">
+                            <div class="row">
+                                <div class="col-lg-2 text-left required-text">
+                                    <span class="form-text text-muted required-asterisk">@Model.SharedLabelsLocalizer["Required"]</span>
+                                </div>
+                                <div class="col-lg-10 text-right">
+                                    <a asp-page="./Index" class="btn btn-mnt-secundary btn-elevate btn-elevate-air"><i class="fa fa-arrow-left"></i>@Model.SharedLabelsLocalizer["BackButton"]</a>
+                                    <button type="submit" class="btn btn-mnt-primary btn-elevate btn-elevate-air"><i class="fa fa-save"></i>@Model.SharedLabelsLocalizer["SaveButton"]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!--end::Form-->
+            </div>
+            <!--end::Portlet-->
+        </div>
+    </div>
+</div>
+
+<!--begin::JS Code-->
+@section Scripts{
+
+    <script>
+       
+        function LoadControls() {
+            let model = ParseViewModelPropertyToJson(@Html.Raw(Model.GetJSONViewModel()));
+
+            $("#Code").dxTextBox({
+                name: "Item.Code",
+                readOnly: true
+            }).dxValidator(
+                {
+                    validationRules: [{
+                        type: "required",
+                        message: "@Model.SharedValidationMessagesLocalizer["RequiredField"]"
+                    }, {
+                        type: "stringLength",
+                        max: 10,
+                        message: "@Model.SharedValidationMessagesLocalizer["StringMaxLength",10]"
+                    }]
+                }
+            );
+
+            $("#Description").dxTextBox({
+                name: "Item.Description",
+            }).dxValidator(
+                {
+                    validationRules: [{
+                        type: "required",
+                        message: "@Model.SharedValidationMessagesLocalizer["RequiredField"]"
+                    }, {
+                        type: "stringLength",
+                        max: 40,
+                        message: "@Model.SharedValidationMessagesLocalizer["StringMaxLength",240]"
+                    }]
+                }
+            );
+
+            $("#Category").dxTextBox({
+                name: "Item.Category",
+            }).dxValidator(
+                {
+                    validationRules: [{
+                        type: "required",
+                        message: "@Model.SharedValidationMessagesLocalizer["RequiredField"]"
+                    }, {
+                        type: "stringLength",
+                        max: 40,
+                        message: "@Model.SharedValidationMessagesLocalizer["StringMaxLength",240]"
+                    }]
+                }
+            );
+
+            $("#CategoryDescription").dxTextBox({
+                name: "Item.CategoryDescription",
+                readOnly: true
+            }).dxValidator(
+                {
+                    validationRules: [{
+                        type: "required",
+                        message: "@Model.SharedValidationMessagesLocalizer["RequiredField"]"
+                    }, {
+                        type: "stringLength",
+                        max: 40,
+                        message: "@Model.SharedValidationMessagesLocalizer["StringMaxLength",240]"
+                    }]
+                }
+            );
+
+            $("#Brand").dxTextBox({
+                name: "Item.Brand",
+            }).dxValidator(
+                {
+                    validationRules: [{
+                        type: "required",
+                        message: "@Model.SharedValidationMessagesLocalizer["RequiredField"]"
+                    }, {
+                        type: "stringLength",
+                        max: 40,
+                        message: "@Model.SharedValidationMessagesLocalizer["StringMaxLength",240]"
+                    }]
+                }
+            );
+
+            $("#Weight").dxNumberBox({
+                name: "Item.Weight",
+                value: model.Weight,
+                step: 0,
+            });
+
+            $("#BarCode").dxTextBox({
+                name: "Item.BarCode",
+            }).dxValidator(
+                {
+                    validationRules: [{
+                        type: "required",
+                        message: "@Model.SharedValidationMessagesLocalizer["RequiredField"]"
+                    }, {
+                        type: "stringLength",
+                        max: 40,
+                        message: "@Model.SharedValidationMessagesLocalizer["StringMaxLength",240]"
+                    }]
+                }
+            );
+
+            $("#UpdateDate").dxDateBox({
+                name: "Form.UpdateDate",
+                type: "date"
+            });
+
+        }
+    </script>
+}
+<!--end::JS Code-->

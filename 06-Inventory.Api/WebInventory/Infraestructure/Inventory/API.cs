@@ -49,7 +49,7 @@
 
             public static string DeleteItem(string baseUri, int code)
             {
-                return $"{baseUri}Itemss/DeleteItem/{code}";
+                return $"{baseUri}Items/DeleteItem/{code}";
             }
         }
     }
